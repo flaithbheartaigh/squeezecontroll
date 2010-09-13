@@ -57,6 +57,7 @@ public:
     void current_title();
     void path();
     void playlist_play(QString CommandStr,QString fadein);
+    void favorites_play(QString CommandStr,QString fadein);
     void playlist_add(QString CommandStr);
     void playlist_insert(QString CommandStr);
     void playlist_loadalbum(QString CommandStr);
@@ -64,6 +65,7 @@ public:
     void playlist_loadtracks(QString CommandStr);
     void playlist_addtracks(QString CommandStr);
     void playlist_insertalbum(QString CommandStr);
+    void playlist_cmd(QString CommandStr);
     void playlist_clear();
     void playlist_zap();
     void playlist_name();

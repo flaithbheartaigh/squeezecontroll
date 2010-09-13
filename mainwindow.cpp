@@ -38,8 +38,10 @@ MainWindow::MainWindow(QWidget *parent)
     const bool selectIap = (manager.capabilities()& QNetworkConfigurationManager::CanStartAndStopInterfaces);
     QNetworkConfiguration defaultIap = manager.defaultConfiguration();
     if(!defaultIap.isValid() && (!selectIap && defaultIap.state() != QNetworkConfiguration::Active))
-    {        // let the user know that there is no access point available    	}
-        session = new QNetworkSession(defaultIap,this);    session->open();
+    {        // let the user know that there is no access point available
+    }
+        session = new QNetworkSession(defaultIap,this);
+        session->open();
 
 #ifdef Q_OS_SYMBIAN
 

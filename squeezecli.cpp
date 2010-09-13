@@ -29,6 +29,7 @@ squeezeCli::squeezeCli(QObject *parent,QString mIpaddr,QString mPortNr)
     tcpSocket = new QTcpSocket(this);
     ok_to_send=true;
     readyToSend=true;
+    connected=false;
     QObject::connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readData()));
     QObject::connect(tcpSocket, SIGNAL(disconnected()),this,SLOT(disConnected()));
 
@@ -58,6 +59,9 @@ bool squeezeCli::connect()
         ret=true;
         qDebug("Connected!");
         connected=true;
+        ok_to_send=true;
+        readyToSend=true;
+        sendBuffer.clear();
     }
 
 
@@ -66,7 +70,7 @@ bool squeezeCli::connect()
 }
 bool squeezeCli::isConnected()
 {
-    return(tcpSocket->isOpen());
+    return(connected);
 
 }
 bool squeezeCli::closeConnection()
@@ -122,7 +126,7 @@ void squeezeCli::readData()
         //        qDebug()<<"readline="<<text1;
     }
     //  qDebug()<<" ";
-    // qDebug()<<"Server Data "<<text;
+    qDebug()<<"CLI Data "<<text;
     emit sendString(text);
     ok_to_send=true;
     readyToSend=true;
@@ -334,6 +338,10 @@ void squeezeCli::playlist_play(QString CommandStr,QString fadein)
 {
     addData("playlist play "+CommandStr+" "+fadein+"\n");
 }
+void squeezeCli::favorites_play(QString CommandStr,QString fadein)
+{
+    addData("favorites playlist play item_id:"+CommandStr+"\n");
+}
 void squeezeCli::playlist_add(QString CommandStr)
 {
     addData("playlist add "+CommandStr+"\n");
@@ -345,6 +353,10 @@ void squeezeCli::playlist_insert(QString CommandStr)
 void squeezeCli::playlist_loadalbum(QString CommandStr)
 {
     addData("playlist loadalbum * * "+CommandStr+"\n");
+}
+void squeezeCli::playlist_cmd(QString CommandStr)
+{
+    addData("playlistcontrol cmd:"+CommandStr+"\n");
 }
 void squeezeCli::playlist_addalbum(QString CommandStr)
 {
@@ -499,8 +511,8 @@ qDebug()<<"Server connection="<<isConnected();
             readyToSend=false;
         }
     }
-    else
-     if(connect())
-         sendData();
+//    else
+//     if(connect())
+//         sendData();
 
 }

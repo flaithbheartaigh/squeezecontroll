@@ -25,8 +25,10 @@
 #include "SqueezeSearch.h"
 #include "SqueezeStatus.h"
 #include <QListWidget>
-static const QString squeezeCommands[] = {"info", "albums","power","status","status","mixer","album","artist","title","search","player"};
+static const QString squeezeCommands[] = {"info", "albums","power","status","status","mixer","album","artist","title","search","player","favorites"};
 static const QString squeezeSubCommands[]={"count","id","uuid","name","ip","model","isplayer","displaytype","canpoweroff"};
+static const QString squeezeInfoSubCommands[]={"total artists","total songs","total albums"};
+static const QString squeezeFavSubCommands[]={"favorites items"};
 class squeezeboxHelper : public QObject
 {
 Q_OBJECT
@@ -36,6 +38,7 @@ public:
 QString getSqueezeboxCommand(QString text);
 int getNumber(QString text);
 void analyzeAlbums(QString text,QList<allAlbum> *p);
+void analyzeFav(QString text,QList<allAlbum> *p);
 void analyzeTrack(QString text,QList<allAlbum> *p);
 void analyzeStatus(QString text,QList<allAlbum> *p,SqueezeStatus *status);
 void StatusUpdate(QString text,SqueezeStatus *status);

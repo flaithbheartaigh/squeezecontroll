@@ -40,6 +40,7 @@
 #include <QtNetwork>
 #include <qmobilityglobal.h>
 #include <qnetworksession.h>
+#include <QNetworkConfigurationManager>
 
 
 enum {s_none,s_sync,s_analyze,s_power,s_start,s_start2,s_start3,s_start4,s_start5,s_start6};//State for more that one networkcommand

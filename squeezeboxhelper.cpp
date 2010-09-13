@@ -1,22 +1,3 @@
-/*
-    Copyright (C) 2010 Michael Rahr
-
-    This file is part of SqueezeRemote.
-
-    SqueezeRemote is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License.
-
-    SqueezeRemote is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with SqueezeRemote.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-
 #include "squeezeboxhelper.h"
 #include <qdebug.h>
 
@@ -45,18 +26,36 @@ QString squeezeboxHelper::getSqueezeboxCommand(QString text)
     //new_command_string=text;
     qDebug()<<new_command_string;
 
-    for (int a=0;a<11;a++)
+    for (int a=0;a<12;a++)
     {
 
         if (new_command_string.contains(squeezeCommands[a]))
         {
-         if (squeezeCommands[a]=="player")
+
+            if (squeezeCommands[a]=="player")
             {
             for(int a=0;a<4;a++)
               if (text.contains(squeezeSubCommands[a]))
               return "player "+squeezeSubCommands[a];
             }
-            return squeezeCommands[a];
+
+            if (squeezeCommands[a]=="info")
+            {
+            for(int a=0;a<3;a++)
+              if (text.contains(squeezeInfoSubCommands[a]))
+              return "info "+squeezeInfoSubCommands[a];
+            }
+
+            if (squeezeCommands[a]=="favorites")
+            {
+                for(int a=0;a<1;a++)
+                  if (text.contains(squeezeFavSubCommands[a]))
+                  return squeezeFavSubCommands[a];
+            }
+
+
+
+         return squeezeCommands[a];
         }
 
     }
@@ -143,6 +142,44 @@ void squeezeboxHelper::analyzeAlbums(QString text,QList<allAlbum> *p)
 
 
 }
+void squeezeboxHelper::analyzeFav(QString text, QList<allAlbum> *p)
+{
+    int numberOfAlbums;
+    int album1,album2,albumCount,count,textPos,len;
+    QString album;
+    numberOfAlbums=text.count("id%",Qt::CaseSensitive);
+
+
+    count=0;
+    albumCount=0;
+    while (albumCount<numberOfAlbums)
+    {
+        album1=text.indexOf("id%",count);
+        album2=text.indexOf("id%",album1+3);
+        if (albumCount==numberOfAlbums-1)
+            album2=text.indexOf(" count",album1+3);
+
+        album=text.mid(album1,(album2-album1));
+        count=album2;
+
+
+
+
+        textPos=album.indexOf("name%3A")+7;
+        len=album.indexOf(" ",textPos);
+        myAlbum.albumName=removeBadChar(album.mid(textPos,len-textPos));
+
+        textPos=album.indexOf("id%3A")+5;
+        len=album.indexOf(" ",textPos);
+        myAlbum.id=album.mid(textPos,len-textPos);
+
+        p->append(myAlbum);
+        albumCount++;
+
+    }
+
+
+}
 void squeezeboxHelper::analyzeTrack(QString text,QList<allAlbum> *p)
 {
     int numberOfTrack;
@@ -193,6 +230,7 @@ void squeezeboxHelper::StatusUpdate(QString text,SqueezeStatus *status)
 
     textPos=text.indexOf("player_name%3A")+14;
     status_field=text.mid(textPos,text.indexOf(" ",textPos)-textPos);
+    status->playerName=status_field;
     qDebug()<<"Player name"<<status_field;
 
     textPos=text.indexOf("player_connected")+19;
@@ -210,6 +248,10 @@ void squeezeboxHelper::StatusUpdate(QString text,SqueezeStatus *status)
     status->playerMode=text.mid(textPos,len-textPos);
     qDebug()<<"Player mode"<<status->playerMode;
 
+    textPos=text.indexOf("power%3A")+8;
+    len=text.indexOf(" ",textPos);
+    status->playerStatus=text.mid(textPos,len-textPos);
+    qDebug()<<"Player mode"<<status->playerMode;
 
     textPos=text.indexOf("mixer%20volume%3A")+17;
     len=text.indexOf(" ",textPos);
@@ -226,6 +268,7 @@ void squeezeboxHelper::StatusUpdate(QString text,SqueezeStatus *status)
     textPos=text.indexOf("title%3A")+8;
     len=text.indexOf(" ",textPos);
     status->currentTitle=removeBadChar(text.mid(textPos,len-textPos));
+
     qDebug()<<"Current Title"<<status->currentTitle;
 
     textPos=text.indexOf("playlist_cur_index%3A")+21;
@@ -241,11 +284,13 @@ void squeezeboxHelper::StatusUpdate(QString text,SqueezeStatus *status)
     textPos=text.indexOf("artist%3A")+9;
     len=text.indexOf(" ",textPos);
     status->artist=removeBadChar(text.mid(textPos,len-textPos));
+    status->currentArtist=status->artist;
     qDebug()<<"Artist "<<status->artist;
 
     textPos=text.indexOf("album%3A")+8;
     len=text.indexOf(" ",textPos);
     status->album=removeBadChar(text.mid(textPos,len-textPos));
+     status->currentAlbum=status->album;
     qDebug()<<"Album "<<status->album;
 
     textPos=text.indexOf("playlist%20repeat%3A")+20;
@@ -315,7 +360,17 @@ void squeezeboxHelper::analyzeStatus(QString text,QList<allAlbum> *p,SqueezeStat
     status->current_volumen=(text.mid(textPos,len-textPos).toInt());
     qDebug()<<"Player Volumen"<<status->current_volumen;
 
+    textPos=text.indexOf("artist%3A")+9;
+    len=text.indexOf(" ",textPos);
+    status->artist=removeBadChar(text.mid(textPos,len-textPos));
+    status->currentArtist=status->artist;
+    qDebug()<<"Artist "<<status->artist;
 
+    textPos=text.indexOf("album%3A")+8;
+    len=text.indexOf(" ",textPos);
+    status->album=removeBadChar(text.mid(textPos,len-textPos));
+    status->currentAlbum=status->album;
+    qDebug()<<"Album "<<status->album;
 
     textPos=text.indexOf("playlist_tracks%3A")+18;
     len=text.indexOf(" ",textPos);

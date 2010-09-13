@@ -49,7 +49,7 @@ background-color: rgb(44, 44, 44);
      <number>2</number>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="page">
      <property name="autoFillBackground">
@@ -155,6 +155,51 @@ QLabel{
 	background-color: rgb(7, 7, 7);
 }
 
+QSlider{
+	background-color: rgba(0, 0, 0, 0);
+}
+
+
+QSlider::groove:vertical { 
+	
+position: absolute; /* absolutely position 4px from the left and right of the widget. setting margins on the widget should work too... */ 
+left: 4px; 
+right: 8px; 
+border-radius:2px;
+border: 1px solid rgb(155, 155,150) ;
+
+
+
+} 
+
+QSlider::handle:vertical { 
+height: 40px;
+border: 1px solid;
+border-color:rgb(124, 255, 78);
+margin: 0 -2px; /* expand outside the groove */ 
+border-radius:5px;
+
+
+}
+ 
+QSlider::handle:vertical:pressed { 
+height: 40px;
+border: 1px solid rgb(155, 155,150.0) ;
+background-color: qlineargradient(spread:reflect, x1:1, y1:0.512, x2:0.546, y2:0.523364, stop:0.0225989 rgba(0, 0, 0, 225), stop:0.954802 rgba(255, 237, 19, 255));
+margin: 0 -2px; /* expand outside the groove */ 
+border-radius:5px;
+
+
+}
+
+QSlider::add-page:vertical {
+	background-color: rgba(0, 0, 0, 0);
+} 
+
+QSlider::sub-page:vertical { 
+	background-color: rgba(0, 0, 0, 0);
+
+}
 
 
 
@@ -378,9 +423,9 @@ color:rgb(221, 221, 221);
      <widget class="kineticList" name="myList" native="true">
       <property name="geometry">
        <rect>
-        <x>5</x>
-        <y>123</y>
-        <width>350</width>
+        <x>6</x>
+        <y>125</y>
+        <width>321</width>
         <height>400</height>
        </rect>
       </property>
@@ -403,6 +448,28 @@ color:rgb(221, 221, 221);
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
+      <widget class="QSlider" name="verticalSlider">
+       <property name="geometry">
+        <rect>
+         <x>329</x>
+         <y>10</y>
+         <width>31</width>
+         <height>391</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>1000</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="invertedAppearance">
+        <bool>true</bool>
+       </property>
+       <property name="invertedControls">
+        <bool>false</bool>
+       </property>
+      </widget>
      </widget>
      <zorder>frame_2</zorder>
      <zorder>label_7</zorder>
@@ -474,7 +541,7 @@ padding: 0 8px;
 }
 
 QLabel{
-	color: rgb(0, 0, 255);
+	color: rgb(255, 255, 255);
 
    border-top: 1px solid gray; 
   border-right: 1px solid gray; 
@@ -1189,10 +1256,11 @@ border-bottom: 1px solid white;
  border-left: 1px solid white;  
 border-radius: 10px; 
 padding: 0 2px; 
+color: rgb(255, 255, 255);
 }
 
 QLabel{
-	color: rgb(0, 0, 255);
+	color: rgb(255, 255, 255);
 
    border-top: 1px solid gray; 
   border-right: 1px solid gray; 
@@ -1396,7 +1464,7 @@ border-image: url(:/icon/RecordPressed1.png) ;
         <x>10</x>
         <y>130</y>
         <width>341</width>
-        <height>35</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="mouseTracking">
@@ -1430,7 +1498,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="styleSheet">
         <string notr="true">font: 7pt &quot;MS Shell Dlg 2&quot;;
-color: rgb(0, 0, 255);</string>
+color: rgb(255, 255, 255);</string>
        </property>
        <property name="text">
         <string>Server IP Address</string>
@@ -1508,7 +1576,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="styleSheet">
         <string notr="true">font: 7pt &quot;MS Shell Dlg 2&quot;;
-color: rgb(0, 0, 255);</string>
+color: rgb(255, 255, 255);</string>
        </property>
        <property name="text">
         <string>Server CLI port number</string>
@@ -1563,7 +1631,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="styleSheet">
         <string notr="true">font: 7pt &quot;MS Shell Dlg 2&quot;;
-color: rgb(0, 0, 255);</string>
+color: rgb(255, 255, 255);;</string>
        </property>
        <property name="text">
         <string>Server HTTP port number</string>
@@ -1610,7 +1678,7 @@ font: 7pt &quot;MS Serif&quot;;</string>
        </property>
        <property name="styleSheet">
         <string notr="true">color: rgb(214, 220, 220);
-font: 5pt &quot;MS Serif&quot;;</string>
+font: 12px &quot;MS Serif&quot;;</string>
        </property>
        <property name="text">
         <string>Connection ?</string>
@@ -1623,7 +1691,7 @@ font: 5pt &quot;MS Serif&quot;;</string>
         <x>10</x>
         <y>170</y>
         <width>341</width>
-        <height>35</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="mouseTracking">
@@ -1633,10 +1701,13 @@ font: 5pt &quot;MS Serif&quot;;</string>
        <string notr="true">QRadioButton{
 	background-color: rgba(255, 255, 255, 0);
 	color: rgb(204, 204, 204);
+}
+QLabel{
+	font: 12px &quot;MS Shell Dlg 2&quot;;
 }</string>
       </property>
       <property name="title">
-       <string>SqueezeCenter</string>
+       <string>Squeeze Info</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -1644,162 +1715,109 @@ font: 5pt &quot;MS Serif&quot;;</string>
       <property name="checked">
        <bool>false</bool>
       </property>
-      <widget class="QRadioButton" name="radioButton">
-       <property name="geometry">
-        <rect>
-         <x>77</x>
-         <y>40</y>
-         <width>200</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>SqueezeBox 1</string>
-       </property>
-      </widget>
-      <widget class="QRadioButton" name="radioButton_2">
-       <property name="geometry">
-        <rect>
-         <x>77</x>
-         <y>80</y>
-         <width>200</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>SqueezeBox 2</string>
-       </property>
-      </widget>
-      <widget class="QRadioButton" name="radioButton_3">
-       <property name="geometry">
-        <rect>
-         <x>77</x>
-         <y>120</y>
-         <width>200</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>SqueezeBox 3</string>
-       </property>
-      </widget>
-      <widget class="QRadioButton" name="radioButton_7">
-       <property name="geometry">
-        <rect>
-         <x>77</x>
-         <y>160</y>
-         <width>200</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>SqueezeBox 4</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="squ1">
+      <widget class="QLabel" name="ServerName">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>30</y>
-         <width>51</width>
-         <height>41</height>
+         <y>50</y>
+         <width>321</width>
+         <height>16</height>
         </rect>
        </property>
-       <property name="styleSheet">
-        <string notr="true">QLabel{
-border:none;
-
-}</string>
-       </property>
        <property name="text">
-        <string/>
+        <string>Sever IP:</string>
        </property>
       </widget>
-      <widget class="QLabel" name="squ2">
+      <widget class="QLabel" name="PlayerName">
        <property name="geometry">
         <rect>
          <x>10</x>
          <y>70</y>
-         <width>51</width>
-         <height>41</height>
+         <width>321</width>
+         <height>16</height>
         </rect>
        </property>
-       <property name="styleSheet">
-        <string notr="true">QLabel{
-border:none;
-
-}</string>
-       </property>
        <property name="text">
-        <string/>
+        <string>Player Name:</string>
        </property>
       </widget>
-      <widget class="QLabel" name="squ3">
+      <widget class="QLabel" name="NumOfPlayer">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>90</y>
+         <width>321</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Number of Players</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="PlayerIP">
        <property name="geometry">
         <rect>
          <x>10</x>
          <y>110</y>
-         <width>51</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QLabel{
-border:none;
-
-}</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QLabel" name="squ4">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>150</y>
-         <width>51</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QLabel{
-border:none;
-
-}</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QFrame" name="frame_4">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>259</y>
          <width>321</width>
-         <height>51</height>
+         <height>16</height>
         </rect>
        </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
+       <property name="text">
+        <string>Player IP:</string>
        </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
+      </widget>
+      <widget class="QLabel" name="PlayerStatus">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>130</y>
+         <width>321</width>
+         <height>16</height>
+        </rect>
        </property>
-       <widget class="QRadioButton" name="radioButton_8">
-        <property name="geometry">
-         <rect>
-          <x>50</x>
-          <y>15</y>
-          <width>200</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Squeeze Network</string>
-        </property>
-       </widget>
+       <property name="text">
+        <string>Player Status</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="NumOfArtist">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>160</y>
+         <width>321</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Number of Artist</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="NumOfAlbums">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>180</y>
+         <width>321</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Number of Albums</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="NumOfTracks">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>200</y>
+         <width>321</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Number of Tracks</string>
+       </property>
       </widget>
      </widget>
      <widget class="QFrame" name="sync">
@@ -1809,9 +1827,9 @@ border:none;
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>220</y>
+        <y>210</y>
         <width>341</width>
-        <height>291</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="styleSheet">

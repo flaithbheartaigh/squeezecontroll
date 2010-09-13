@@ -42,12 +42,8 @@
 #include <qnetworksession.h>
 
 
-
 enum {s_none,s_sync,s_analyze,s_power,s_start,s_start2,s_start3,s_start4,s_start5,s_start6};//State for more that one networkcommand
-
-
-
-
+enum {mode_album,mode_fav};
 namespace Ui
 {
     class MainWindow;
@@ -67,7 +63,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QList<allAlbum> allAlbums;
-    QList<allFavoritesStruct> allFavorites;
+    QList<allAlbum> allFavorites;
     QList<SqueezeSearchAlbum> searchAlbum;
     QList<SqueezeSearchTrack> searchTrack;
     QList<SqueezeSearchContributor> searchContributor;
@@ -89,7 +85,9 @@ private:
     QPropertyAnimation *squeezeCenterGroupAnimation;
     QPropertyAnimation *squeezeSyncAnimation;
 
-
+    QString oldAlbum;
+    QString oldTitle;
+    QString oldNumOfTracks;
 
     int curIndex;
     dataBaseHandler *myMusic;
@@ -102,6 +100,7 @@ private:
     int divider;
     div_t answer;
     bool get_track;
+    int playmode;
 
 
     squeezeboxHelper *mySqueezeHelper;
@@ -142,6 +141,8 @@ private:
 private slots:
 
 
+    void on_play_released();
+    void on_verticalSlider_sliderMoved(int position);
     void on_Add_clicked();
     void on_play_3_clicked();
     void on_trackliste_clicked(QModelIndex index);
@@ -206,6 +207,8 @@ private slots:
     void flickPlayAlbum(int index);
     void playTrack(int index);
     void widgetChanged(int page);
+    void end_of_offset(int offset);
+    void longPress(int index);
 
 };
 

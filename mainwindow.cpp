@@ -61,8 +61,16 @@ MainWindow::MainWindow(QWidget *parent)
     }
     qDebug()<<"Setting current path="<<dir.setCurrent(myString+"squeezedata");
 
-
+#else
+    QDir dir("c:/squeezedata");
+    if (!dir.exists("c:/squeezedata"))
+    {
+        dir.mkdir("c:/squeezedata");
+        qDebug()<<"Dir did not exists we created it";
+    }
+    qDebug()<<"Setting current path="<<dir.setCurrent("c:/squeezedata");
 #endif
+
     //*************************************************
     currentView="Album List";
     bool databaseResult;
@@ -74,6 +82,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->sync->hide();
     albumArt=new QPixmap();
     maxFav="300";                                                           //hardcoded max number of favorites, TODO. fix this
+    playmode=mode_album;
     mySqueezeHelper = new squeezeboxHelper(this);
     t = new QTimer( this );
     connect( t, SIGNAL(timeout()), SLOT(removePanel()));
@@ -129,15 +138,21 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->stackedWidget,SIGNAL(currentChanged(int)),this,SLOT(widgetChanged(int)));
     connect(ui->myList,SIGNAL(doubleClick(int)),this,SLOT(flickPlayAlbum(int)));
 
+    connect(ui->myList,SIGNAL(endOfScroll(int)),this,SLOT(end_of_offset(int)));
+    connect(ui->myList,SIGNAL(longPress(int)),this,SLOT(longPress(int)));
+
+
     if(connect(myAlbumCover,SIGNAL(sendCurrentAlbumCover(QPixmap*)),this,SLOT(on_receive_albumcover(QPixmap*))))
         qDebug()<<"Album cover signal ok";
     else
         qDebug()<<"ERROR on signal";
 
+
     if (myClihandler->connect())
         qDebug()<<"Connection ok";
     else
         qDebug()<<"No connection";
+
 
     get_track=true;
     getServerStatus();
@@ -171,7 +186,31 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Network->setGeometry      (10,120,341,35);
     ui->SqueezeCenter->setGeometry(10,170,341,35);
     getNumberOfPlayers();
+    ui->verticalSlider->setMaximum(ui->myList->getScrollListOffset());
 
+
+
+    //**********************************************************************************
+    //Check network connection before starting, if not connected then go to settings
+    //Page and expand the network pane
+    if (myClihandler->isConnected())
+    {
+        qDebug()<<"Connection ok";
+        ui->isConnected->setText("Connection ok");
+    }
+    else
+    {
+        qDebug()<<"No connection";
+        ui->isConnected->setText("Error in connection");
+        curIndex=3;
+        ui->stackedWidget->setCurrentIndex(curIndex);
+        ui->Network->setChecked(true);
+        networkGroupAnimation->setStartValue(QRect(10,120,341,35));
+        networkGroupAnimation->setEndValue(QRect(10,120,341,341));
+        networkGroupAnimation->setDuration(250);
+        networkGroupAnimation->start();
+        ui->SqueezeCenter->show();
+    }
 
 
 }
@@ -217,17 +256,25 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
     oldPos=QCursor::pos();
     qDebug()<<"Press Position"<<QCursor::pos();
     //ui->frame_2->setGeometry(10,570,461,61);
+    if (myClihandler->isConnected())
+    {
+        if (QCursor::pos().y()<70){
+            qDebug()<<"in insert panel function";
+            if (ui->ControlBox->pos().y()<0)
+                insertPanel();
+            else
 
-    if (QCursor::pos().y()<100){
-        qDebug()<<"in insert panel function";
-        if (ui->ControlBox->pos().y()<0)
-
-            insertPanel();
-        else
-
-            UITimeout->start(3000);
+                UITimeout->start(3000);
+        }
     }
-
+    else
+    {
+        if (curIndex!=3)
+        {
+            curIndex=3;
+            ui->stackedWidget->setCurrentIndex(curIndex);
+        }
+    }
 
 }
 
@@ -287,15 +334,20 @@ void MainWindow::on_pushButton_clicked()
     port_nr=ui->server_port->text();
     http_port_nr=ui->server_port_2->text();
     ui->isConnected->setText("Trying to connect til SQUEEZEBOX");
-    ui->centralWidget->update();
+    ui->centralWidget->repaint();
     autoconnect=ui->server_autoconnect->checkState();
     myClihandler->setConnectionData(ip_addr,port_nr);
 
     if(myClihandler->connect())
+    {
         ui->isConnected->setText("Connected to SQUEEZEBOX on ip "+ip_addr);
+        getServerStatus();
+    }
     else
         ui->isConnected->setText("Error on connection to ip "+ip_addr);
+
     mySqueezeListner->connectTo(ip_addr,port_nr);
+    mySqueezeListner->subscribeTo("status - 1 subscribe:5\n");
     setSettings();
 }
 void MainWindow::on_pushButton_2_clicked()
@@ -305,12 +357,21 @@ void MainWindow::on_pushButton_2_clicked()
 void MainWindow::on_pushButton_3_clicked()
 {
 
-   ui->sync->show();
-   squeezeSyncAnimation->setEndValue(QRect(10,220,341,291));
-   squeezeSyncAnimation->setStartValue(QRect(10,120,341,0));
-   squeezeSyncAnimation->setDuration(150);
-   squeezeSyncAnimation->start();
-    syncDatabase();
+    if (myClihandler->isConnected())
+    {
+        ui->sync->show();
+        ui->Network->show();
+        ui->SqueezeCenter->show();
+        ui->Network->setGeometry(QRect(10,130,341,35));
+        ui->SqueezeCenter->setGeometry(QRect(10,170,341,35));
+        ui->Network->setChecked(false);
+        ui->SqueezeCenter->setChecked(false);
+        squeezeSyncAnimation->setEndValue(QRect(10,220,341,291));
+        squeezeSyncAnimation->setStartValue(QRect(10,120,341,0));
+        squeezeSyncAnimation->setDuration(150);
+        squeezeSyncAnimation->start();
+        syncDatabase();
+    }
 }
 void MainWindow::upDateUI()
 {
@@ -342,10 +403,27 @@ void MainWindow::upDateUIPage()
         ui->label_9->setText("<h3>Settings Menu</h3>"+myStatus.currentAlbum+"<br><b>"+myStatus.currentTitle+"</b><br>"+myStatus.currentArtist+"</br></font>");
         ui->track_2->setText("Playing "+QString::number(myStatus.playlistCurrentIndex)+" of "+myStatus.playListTrack);
         ui->track_4->setText("Playing "+QString::number(myStatus.playlistCurrentIndex)+" of "+myStatus.playListTrack);
+if (myStatus.playerMode=="pause")
+    ui->play->setStyleSheet("border-image: url(:/icon/pause.png) 3 3 2 3");
+else
+    ui->play->setStyleSheet("border-image: url(:/icon/play.png) 3 3 2 3");
 
-        //        if (myStatus.playlistCurrentIndex-1<ui->trackliste->count())
-        //            ui->nowTrackList->setCurrentRow(myStatus.playlistCurrentIndex-1);
+
     }
+    ui->page_3->update();
+    ui->ServerName->setText("Server IP: "+ip_addr);
+    ui->PlayerName->setText("Player Name: "+myStatus.playerName);
+    ui->NumOfPlayer->setText("Number of players: "+QString::number(myStatus.numbers_of_players));
+    ui->PlayerIP->setText("Player IP:"+myStatus.playerIp);
+
+    if (myStatus.playerStatus=="1")
+        ui->PlayerStatus->setText("Player on");
+    else
+        ui->PlayerStatus->setText("Player off");
+
+    ui->NumOfArtist->setText("Number of Artist: "+QString::number(myStatus.number_of_artist));
+    ui->NumOfAlbums->setText("Number of Albums: "+QString::number(myStatus.number_of_albums));
+    ui->NumOfTracks->setText("Number of Tracks: "+QString::number(myStatus.number_of_tracks));
 }
 void MainWindow::upDateAlbumList()
 {
@@ -424,7 +502,7 @@ void MainWindow::nextState()
         }
     case s_start: myClihandler->volume("?");state=s_start2;break;
     case s_start2: myClihandler->album();state=s_start3;break;
-    case s_start3: myClihandler->getTotalAlbum();state=s_start4;break;
+    case s_start3: myClihandler->getTotalAlbum();myClihandler->getTotalArtists();myClihandler->getTotalSongs();state=s_start4;break;
     case s_start4: myClihandler->status();
     case s_start5: myClihandler->title();if (get_track==true)state=s_start6;else state=s_none;break;
     case s_start6:
@@ -551,10 +629,20 @@ void MainWindow::receiveString(QString data)
     command=mySqueezeHelper->getSqueezeboxCommand(data);
     qDebug()<<"Command to execute="<<command;
 
-    if (command=="info")
+    if (command=="info total albums")
     {
         myStatus.number_of_albums=mySqueezeHelper->getNumber(data);
         ui->sync_label->setText("Albums to sync = "+QString::number(myStatus.number_of_albums));
+        nextState();
+    }
+    if (command=="info total artists")
+    {
+        myStatus.number_of_artist=mySqueezeHelper->getNumber(data);
+        nextState();
+    }
+    if (command=="info total songs")
+    {
+        myStatus.number_of_tracks=mySqueezeHelper->getNumber(data);
         nextState();
     }
     if (command=="albums")
@@ -566,8 +654,8 @@ void MainWindow::receiveString(QString data)
         if (numOfIttr==0)
         {
 
-           ui->sync_label->setText("Finish");
-           ui->progressBar->setValue(ui->progressBar->maximum());
+            ui->sync_label->setText("Finish");
+            ui->progressBar->setValue(ui->progressBar->maximum());
             myMusic->syncDatabase(&allAlbums);
             squeezeSyncAnimation->setStartValue(QRect(10,220,341,291));
             squeezeSyncAnimation->setEndValue(QRect(10,120,341,0));
@@ -589,6 +677,7 @@ void MainWindow::receiveString(QString data)
     {
         mySqueezeHelper->analyzeStatus(data,&trackListe,&myStatus);
         ui->ListTrack->setList(&trackListe);
+        ui->ListTrack->update();
         upDateUIPage();
         nextState();
     }
@@ -649,20 +738,30 @@ void MainWindow::receiveString(QString data)
         myStatus.numbers_of_players=mySqueezeHelper->getNumber(data);
         getPlayerInfo();
     }
+    if (command=="favorites items")
+    {
+        allFavorites.clear();
+        mySqueezeHelper->analyzeFav(data,&allFavorites);
+        qDebug()<<"Number of Fav="<<allFavorites.count();
+        qDebug()<<"Fav 0"<<allFavorites.at(0).albumName;
+        ui->myList->setList(&allFavorites);
+
+    }
 }
 void MainWindow::receiveStatus(QString data)
 {
-    QString oldAlbum=myStatus.album;
-    QString oldTitle=myStatus.currentTitle;
-    QString oldNumOfTracks=myStatus.playListTrack;
-    qDebug()<<"data"<<data;
+
+
+
     int tracks=oldNumOfTracks.toInt();
     mySqueezeHelper->StatusUpdate(data,&myStatus);
+    upDateUIPage();
+    qDebug()<<"data"<<data;
+
     qDebug()<<"myStatus tracks="<<myStatus.number_of_tracks;
     //ui->progressBar->setValue(myStatus.playedInPerc);
 
-    if (oldTitle!=myStatus.currentTitle)
-        upDateUIPage();
+
 
     QString currentTracks=myStatus.playListTrack;
 
@@ -670,12 +769,19 @@ void MainWindow::receiveStatus(QString data)
     {
         get_track=true;
         getServerStatus();
-        upDateUIPage();
+
+    }
+
+    if (oldTitle!=myStatus.currentTitle)
+    {
+        get_track=true;
+        getServerStatus();
     }
 
     if (oldAlbum!=myStatus.album)
     {
-
+        get_track=true;
+        getServerStatus();
         QString albumId=myMusic->getAlbumId(myStatus.album);
         QString alBumPath=QDir::currentPath()+"/"+albumId+".jpg";
 
@@ -701,9 +807,11 @@ void MainWindow::receiveStatus(QString data)
     }
 
 
-    //get_track=true;
-    //getServerStatus();
-    //upDateUIPage();
+
+    upDateUIPage();
+    oldAlbum=myStatus.album;
+    oldTitle=myStatus.currentTitle;
+    oldNumOfTracks=myStatus.playListTrack;
 }
 
 
@@ -719,7 +827,7 @@ void MainWindow::playItem(QListWidgetItem* index)
     QString playlist;
     QString number;
     //playlist=allAlbums.at(ui->albumlist->currentRow()).albumRealName;
-    playlist=allAlbums.at(ui->myList->getSelected()).albumRealName;
+    playlist=allAlbums.at(ui->myList->getSelected()).id;
     qDebug()<<"album to load "<<playlist;
 
     QString alBumPath = myMusic->getCoverPath(allAlbums.at(ui->myList->getSelected()).albumName);
@@ -744,36 +852,61 @@ void MainWindow::flickPlayAlbum(int index)
 {
     QString playlist;
     QString number;
-    playlist=allAlbums.at(index).albumRealName;
-    qDebug()<<"album to load "<<playlist;
-
-    QString albumId=allAlbums.at(index).id;
-    QString alBumPath = QDir::currentPath()+"/"+albumId+".jpg";
-
-
-
-    if((alBumPath!="")&&(alBumPath!=myStatus.currentAlbumPath))
+    qDebug()<<"Index="<<index;
+    qDebug()<<"Album Count="<<allAlbums.count();
+    if (playmode==mode_album)
     {
-        QColor myColor;
-        myColor.setRgb(0,0,0);
-        albumArt->fill(myColor);
-        if(albumArt->load(alBumPath))
+        if (allAlbums.count()>index)
         {
-            ui->pixture->setPixmap(*albumArt);
-            myStatus.currentAlbumPath=alBumPath;
+            playlist=allAlbums.at(index).id;
+            qDebug()<<"album to load "<<playlist;
+
+            QString albumId=allAlbums.at(index).id;
+            QString alBumPath = QDir::currentPath()+"/"+albumId+".jpg";
+
+
+
+            if((alBumPath!="")&&(alBumPath!=myStatus.currentAlbumPath))
+            {
+                QColor myColor;
+                myColor.setRgb(0,0,0);
+                albumArt->fill(myColor);
+                if(albumArt->load(alBumPath))
+                {
+                    ui->pixture->setPixmap(*albumArt);
+                    myStatus.currentAlbumPath=alBumPath;
+                }
+
+            }
+
+
+            myClihandler->playlist_cmd("load album_id:"+playlist);
+
+
+            get_track=true;
+            getServerStatus();
+
+            upDateUI();
+            curIndex=2;
+            ui->stackedWidget->setCurrentIndex(curIndex);
         }
-
     }
+    else
+    {
+        QString albumId=allFavorites.at(index).id;
+        myClihandler->favorites_play(albumId,0);
 
 
-    myClihandler->playlist_loadalbum(playlist);
-    get_track=true;
-    getServerStatus();
 
-    upDateUI();
-    curIndex=2;
-    ui->stackedWidget->setCurrentIndex(curIndex);
 
+        get_track=true;
+        getServerStatus();
+
+        upDateUI();
+        curIndex=2;
+        ui->stackedWidget->setCurrentIndex(curIndex);
+        myAlbumCover->getCurrentAlbumCover(ip_addr,http_port_nr.toInt(),"/music/current/cover.jpg");
+    }
 }
 
 void MainWindow::playTrack(int index)
@@ -786,18 +919,6 @@ void MainWindow::playTrack(int index)
 void MainWindow::on_receive_albumcover(QPixmap *p)
 {
     qDebug()<<"Got a picture Investigate why now************************************************************";
-
-    //ui->stackedWidget->setAutoFillBackground(true);
-    //QPalette pal(ui->stackedWidget->palette());
-    //ui->page->setBackgroundRole(QPalette::Window);
-    //
-    //pal.setBrush(QPalette::Window,QBrush(*p));
-    //ui->stackedWidget->setPalette(pal);
-    //QBitmap bit(*p);
-    //ui->page->setMask(bit);
-    //ui->label_7->setPixmap(*p);
-    //    p->save("cover_test.jpg");
-    //    ui->stackedWidget->setStyleSheet("QWidget#page{border-image: url(cover_test.jpg) ;}QWidget#page_3{border-image: url(cover_test.jpg) ;}QWidget{background-color: rgb(44, 44, 44);}");
 
 
     QString albumId=myMusic->getAlbumId(myStatus.album);
@@ -845,6 +966,14 @@ void MainWindow::startAniTimer()
     removePanel();
     UITimeout->stop();
 }
+void MainWindow::end_of_offset(int offset)
+{
+    ui->verticalSlider->setValue(offset);
+}
+void MainWindow::longPress(int index)
+{
+    flickPlayAlbum(index);
+}
 
 //*****************************************************
 //UI functions
@@ -864,11 +993,14 @@ void MainWindow::on_stop_2_clicked()
 void MainWindow::on_skib_f_2_clicked()
 {
 
-    //myClihandler->favorites();
+    playmode=mode_fav;
+    myClihandler->favorites("0",maxFav);
+
 
 }
 void MainWindow::on_skib_b_2_clicked()
 {
+    playmode=mode_album;
     currentView="Artist List";
     allAlbums.clear();
     myMusic->getArtist(&allAlbums);
@@ -878,6 +1010,7 @@ void MainWindow::on_skib_b_2_clicked()
 }
 void MainWindow::on_play_2_clicked()
 {
+    playmode=mode_album;
     currentView="Album List";
     allAlbums.clear();
     myMusic->getAlbums(&allAlbums);
@@ -921,8 +1054,26 @@ void MainWindow::on_skib_b_clicked()
 void MainWindow::on_play_clicked()
 {
     int row=ui->ListTrack->getSelected();
-    myClihandler->playlist_index(QString::number(row));
-    getServerStatus();
+qDebug()<<"Row="<<row;
+if (row>-1)
+{
+    if ((trackListe.at(row).albumName!=myStatus.currentTitle))
+    {
+        myClihandler->playlist_index(QString::number(row));
+        getServerStatus();
+    }
+    else
+    {
+      myClihandler->pause();
+
+    }
+}
+else
+{
+    myClihandler->pause();
+
+}
+
 }
 void MainWindow::on_stop_clicked()
 {
@@ -1232,3 +1383,13 @@ void MainWindow::on_Add_clicked()
 
 }
 
+
+void MainWindow::on_verticalSlider_sliderMoved(int position)
+{
+    ui->myList->scrolllist(ui->verticalSlider->value());
+}
+
+void MainWindow::on_play_released()
+{
+
+}

@@ -37,7 +37,9 @@ public:
     kineticList(QWidget *parent = 0, int mNumOfTextToDisplay = 1,QColor textSelected=Qt::lightGray, QColor text=Qt::blue, QColor backGround=Qt::white)
         :QWidget(parent) {
         m_offset = 0;
-
+        m_button=false;
+        m_longPress=false;
+        m_timeOut=false;
         font1 = new QFont("Helvetica",15,1,false);
         font1->setPixelSize(25);
         font2 =new QFont("Helvetica",10,1,false);
@@ -100,6 +102,7 @@ public:
     void setSelectedColor(QColor color)
     {
         m_textSelected=color;
+        m_oldColor=color;
     }
     void setLineColor(QColor color)
     {
@@ -111,7 +114,7 @@ public:
     }
     void setNumOfTextToDisplay(int mNumOfTextToDisplay)
     {
-    m_nomoftexttodisplay=mNumOfTextToDisplay;
+        m_nomoftexttodisplay=mNumOfTextToDisplay;
     }
 
     void setHighLightedColor(QColor color)
@@ -144,6 +147,16 @@ protected:
     void paintEvent(QPaintEvent *event) {
         QPainter p(this);
         p.fillRect(event->rect(), m_background);
+
+
+        if (abs(m_offset-old_offset)>100)
+        {
+            emit endOfScroll(m_offset);
+            old_offset=m_offset;
+        }
+
+
+
         int start = m_offset / m_height;
         int y = start * m_height - m_offset;
 
@@ -208,6 +221,18 @@ protected:
 
     void mousePressEvent(QMouseEvent *event) {
 
+if (m_timeOut==false)
+        {
+        qDebug()<<"Got a mouse press event in List Setting long press flag";
+        m_longPress=true;
+        m_textSelected=Qt::blue;
+        m_button=true;
+        m_mousePos=event->pos();
+        QTimer::singleShot(170,this,SLOT(timeOut()));
+    }
+else
+    m_timeOut=false;
+
         Flickable::handleMousePress(event);
 
         if (event->button() == Qt::LeftButton) {
@@ -230,11 +255,31 @@ protected:
         }
     }
 
+
+
     void mouseMoveEvent(QMouseEvent *event) {
+
+        if (m_button)
+        {
+            if (abs(event->pos().y()-m_mousePos.y())>50)
+            {
+                m_longPress=false;
+                qDebug()<<"Mouse Move more than 50px";
+            }
+        }
         Flickable::handleMouseMove(event);
     }
 
     void mouseReleaseEvent(QMouseEvent *event) {
+        m_button=false;
+        if (m_longPress==true)
+        {
+            qDebug()<<"Sending a longpress event";
+            emit longPress(m_selected);
+            m_longPress=false;
+
+        }
+
         Flickable::handleMouseRelease(event);
         if (event->isAccepted())
             return;
@@ -251,22 +296,42 @@ protected:
     }
 
 private:
-    int m_offset;
+    int m_offset,old_offset;
     int m_height;
     int m_highlight;
     int m_selected;
     int m_nomoftexttodisplay;
-    QColor m_background,m_text,m_textSelected,m_lineColor,m_highLightedColor;
+    QColor m_background,m_text,m_textSelected,m_lineColor,m_highLightedColor,m_oldColor;
     QStringList m_colorNames;
     QList<QColor> m_firstColor;
     QList<QColor> m_secondColor;
     QPixmap *myPic;
     QList<allAlbum> albumList;
     QFont *font1, *font2;
+    bool m_longPress;
+    QPoint m_mousePos;
+    bool m_button;
+    bool m_timeOut;
 
 signals:
     void doubleClick(int);
     void endOfScroll(int);
+    void longPress(int);
+
+
+private slots:
+    void timeOut()
+    {
+       m_textSelected=m_oldColor;
+       update();
+        if (m_longPress==true)
+        {
+
+         m_longPress=false;
+         m_timeOut=true;
+         qDebug()<<"Got a timeOut "<<m_longPress;
+        }
+    }
 };
 
 #endif

@@ -24,7 +24,7 @@
 #include "squeezeboxhelper.h"
 #include <QtNetwork>
 #ifdef Q_OS_SYMBIAN
-//#include "sym_iap_util.h"
+#include "sym_iap_util.h"
 #include <PathInfo.h>
 #endif
 
@@ -34,21 +34,23 @@ MainWindow::MainWindow(QWidget *parent)
     //*************************************************
     //Check and set network connection
 
-    QNetworkConfigurationManager manager;
-    const bool selectIap = (manager.capabilities()& QNetworkConfigurationManager::CanStartAndStopInterfaces);
-    QNetworkConfiguration defaultIap = manager.defaultConfiguration();
-    if(!defaultIap.isValid() && (!selectIap && defaultIap.state() != QNetworkConfiguration::Active))
-    {        // let the user know that there is no access point available
-    }
-        session = new QNetworkSession(defaultIap,this);
-        session->open();
+//    QNetworkConfigurationManager manager;
+//    const bool selectIap = (manager.capabilities()& QNetworkConfigurationManager::CanStartAndStopInterfaces);
+//    QNetworkConfiguration defaultIap = manager.defaultConfiguration();
+//    qDebug()<<"Network ="<<defaultIap.bearerName();
+//    if(!defaultIap.isValid() && (!selectIap && defaultIap.state() != QNetworkConfiguration::Active))
+//    {        // let the user know that there is no access point available
+//    qDebug()<<"No Valid connection";
+//    }
+//        session = new QNetworkSession(defaultIap,this);
+//        session->open();
 
 #ifdef Q_OS_SYMBIAN
 
 
 
 
-    //qt_SetDefaultIap();
+    qt_SetDefaultIap();
     // Get the root path of Phone Memory.
     TFileName path = PathInfo::MemoryCardRootPath();
 

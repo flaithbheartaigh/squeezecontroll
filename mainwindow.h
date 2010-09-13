@@ -37,10 +37,10 @@
 #include <QRadioButton>
 #include "SqueezePlayer.h"
 #include "SqueezeSearch.h"
-#include <QtNetwork>
-#include <qmobilityglobal.h>
-#include <qnetworksession.h>
-#include <QNetworkConfigurationManager>
+//#include <QtNetwork>
+//#include <qmobilityglobal.h>
+//#include <qnetworksession.h>
+//#include <QNetworkConfigurationManager>
 
 
 enum {s_none,s_sync,s_analyze,s_power,s_start,s_start2,s_start3,s_start4,s_start5,s_start6};//State for more that one networkcommand
@@ -50,7 +50,7 @@ namespace Ui
     class MainWindow;
 
 }
-QTM_USE_NAMESPACE
+//QTM_USE_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
@@ -79,7 +79,7 @@ private:
     QTimer *UIInsertPanelTimer;
     QTimer *UITimeout;
     QPixmap *albumArt;
-    QNetworkSession* session;
+    //QNetworkSession* session;
 
     QPropertyAnimation *animation,*insertAnimation;
     QPropertyAnimation *networkGroupAnimation;

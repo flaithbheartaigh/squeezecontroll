@@ -28,6 +28,8 @@ HEADERS += mainwindow.h \
     kineticlist.h
 FORMS += mainwindow.ui
 RESOURCES += icon.qrc
+CONFIG += mobility
+MOBILITY += bearer
 symbian { 
     # TARGET.UID3 = 0xA000A638
     include(symbianpkgrules.pri)

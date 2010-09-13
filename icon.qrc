@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>RecordPressed1.png</file>
+        <file>RecordHot1.png</file>
+        <file>bulletg.png</file>
+        <file>Gnome-Media-Playlist-Repeat-32.png</file>
+        <file>Gnome-Media-Playlist-Shuffle-32.png</file>
+        <file>agt_forward-32.png</file>
+        <file>agt_back-32.png</file>
+        <file>Settings-32.png</file>
+        <file>bullet_silver_50.png</file>
+        <file>pause.png</file>
+        <file>play.png</file>
+        <file>previous.png</file>
+        <file>next.png</file>
+        <file>setting-64.png</file>
+        <file>ma-Musique-icon.png</file>
+        <file>search-icon.png</file>
+        <file>liste.png</file>
+        <file>touch_media_thumb.png</file>
+        <file>NoCover.jpg</file>
+        <file>playlist.jpg</file>
+        <file>Albums.jpg</file>
+        <file>artist.jpg</file>
+        <file>artist_sel.jpg</file>
+        <file>playlist_sel.jpg</file>
+        <file>album_sel.jpg</file>
+    </qresource>
+</RCC>

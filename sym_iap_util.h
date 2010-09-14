@@ -83,6 +83,8 @@ void clearIapNamesSettings(QSettings &settings) {
     settings.endGroup();
 }
 
+IMPORT_C int setdefaultif( const struct ifreq* );
+
 void writeIapNamesSettings(QSettings &settings, const QStringList& iapNames) {
     clearIapNamesSettings(settings);
     settings.beginGroup(qtNetworkModuleTag);

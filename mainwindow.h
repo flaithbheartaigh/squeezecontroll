@@ -211,6 +211,8 @@ private slots:
     void end_of_offset(int offset);
     void longPress(int index);
 
+    void httpError(QString);
+
 };
 
 #endif // MAINWINDOW_H

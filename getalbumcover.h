@@ -42,9 +42,12 @@ QHttp *http;
 public slots:
 void getImage(bool error);
 void readResponseHeader(const QHttpResponseHeader &responseHeader);
+void httpRequestError(int,bool);
+
 
 signals:
     void sendCurrentAlbumCover(QPixmap *p);
+    void sendHttpError(QString);
 
 
 };

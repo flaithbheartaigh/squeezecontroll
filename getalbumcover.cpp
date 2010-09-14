@@ -29,6 +29,7 @@ GetAlbumCover::GetAlbumCover(QObject *parent):
             this, SLOT(getImage(bool)));
     connect(http, SIGNAL(responseHeaderReceived(QHttpResponseHeader)),
             this, SLOT(readResponseHeader(QHttpResponseHeader)));
+    connect(http,SIGNAL(requestFinished(int,bool)),SLOT(httpRequestError(int,bool)));
 
     albumArt = new QPixmap(":/icon/NoCover.jpg");
     qDebug()<<"Connecting to http server";
@@ -45,16 +46,28 @@ void GetAlbumCover::getCurrentAlbumCover(QString ip_addr, int port_nr,QString pa
 
         ready_for_request=false;
         http->setHost(ip_addr,port_nr);
-        http->get(path);
-        qDebug()<<"Senden Get request to "<<path;
+        int id=http->get(path);
+        qDebug()<<"Senden Get request to "<<path<<" ID="<<id;
     }
 
 }
+
+void GetAlbumCover::httpRequestError(int id, bool error )
+{
+    if(error==true)
+    {
+        qDebug()<<"SomeThing When wrong with Request ID="<<id;
+        qDebug()<<http->errorString();
+        emit sendHttpError(http->errorString());
+    }
+}
+
 void GetAlbumCover::getImage(bool error)
 {
     QByteArray myArray;
 
     qDebug()<<"Receiving data ERROR state="<<error;
+
 
     if (!error) {
         QImage image;

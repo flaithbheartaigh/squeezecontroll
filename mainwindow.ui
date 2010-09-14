@@ -1464,7 +1464,7 @@ border-image: url(:/icon/RecordPressed1.png) ;
         <x>10</x>
         <y>130</y>
         <width>341</width>
-        <height>31</height>
+        <height>361</height>
        </rect>
       </property>
       <property name="mouseTracking">
@@ -1691,7 +1691,7 @@ font: 12px &quot;MS Serif&quot;;</string>
         <x>10</x>
         <y>170</y>
         <width>341</width>
-        <height>31</height>
+        <height>321</height>
        </rect>
       </property>
       <property name="mouseTracking">
@@ -1829,7 +1829,7 @@ QLabel{
         <x>10</x>
         <y>210</y>
         <width>341</width>
-        <height>281</height>
+        <height>41</height>
        </rect>
       </property>
       <property name="styleSheet">

@@ -150,6 +150,7 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug()<<"Album cover signal ok";
     else
         qDebug()<<"ERROR on signal";
+   connect(myAlbumCover,SIGNAL(sendHttpError(QString)),this,SLOT(httpError(QString)));
 
 
     if (myClihandler->connect())
@@ -161,6 +162,8 @@ MainWindow::MainWindow(QWidget *parent)
     get_track=true;
     getServerStatus();
     ui->stackedWidget->setCurrentIndex(curIndex);
+    qDebug()<<"********************************************************************************";
+    qDebug()<<"Getting Album Art";
     myAlbumCover->getCurrentAlbumCover(ip_addr,http_port_nr.toInt(),"/music/current/cover.jpg");
 
 
@@ -977,6 +980,21 @@ void MainWindow::end_of_offset(int offset)
 void MainWindow::longPress(int index)
 {
     flickPlayAlbum(index);
+}
+
+void MainWindow::httpError(QString errorSring)
+{
+qDebug()<<"Httpt error do something" <<errorSring;
+ui->label_5->setText("HTTP ERROR="+errorSring);
+ui->isConnected->setText("Error in connection");
+curIndex=3;
+ui->stackedWidget->setCurrentIndex(curIndex);
+ui->Network->setChecked(true);
+networkGroupAnimation->setStartValue(QRect(10,120,341,35));
+networkGroupAnimation->setEndValue(QRect(10,120,341,341));
+networkGroupAnimation->setDuration(250);
+networkGroupAnimation->start();
+ui->SqueezeCenter->show();
 }
 
 //*****************************************************

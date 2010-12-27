@@ -29,21 +29,30 @@ class dataBaseHandler : public QObject
 public:
     dataBaseHandler(QObject *parent = 0);
      ~dataBaseHandler();
-     bool openDB();
-     bool deleteDB();
-     bool deleteTabel();
-     bool createTables();
+     //Table operations
+     bool openDB();                         //Opens database
+     bool deleteDB();                       //Removes the actual db file
+     bool createTables();                   //Creates album and track tavles and indicies
+     void deleteTabel();                    //Deletes tables and indicies
 
-     QSqlQueryModel* getTracksByAlbum(int albumId);
-     void setTracksByAlbum(int albumId, QStringList albumInfo );
+     //Album operations
+     int insertAlbum( QString visiblename, QString realname);       //Adds an album to the database
+     int Update(QString album,QString path);                        //Adds a "path" to the album given by Album "VisibleName"
+     QString getCoverPath(QString album);                           //retrieve the cover path from album
+     QString getAlbumId(QString album);                             //Gets album unique ID by "VisibleName"
+     void deleteAlbum(QString album);                               //Deletes the album and all the tracks fro that album
+     int albumTrackCount(QString albumId);                          //Identifies the amount os tracks on an album
 
-     int insertAlbum(int id, QString visiblename, QString realname);
-     int Update(int albumID,QString album,QString path);
-     QString getCoverPath(QString album);
-     QString getAlbumId(QString album);
-     void syncDatabase(QList<allAlbum> *p);
+     //Album clustered operation
      void getAlbums(QList<allAlbum> *p);
      void getArtist(QList<allAlbum> *p);
+
+     //Track operations
+     void getTracksByAlbum(QString albumId, QList<allTrackInfo> *p);
+     //QSqlQueryModel* getTracksByAlbum(int albumId);
+     void setTracksByAlbum(int albumId, QStringList albumInfo );
+
+     void syncDatabase(QList<allAlbum> *p);
      QSqlError lastError();
      allAlbum myAlbum;
 

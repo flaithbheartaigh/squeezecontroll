@@ -42,29 +42,43 @@ bool dataBaseHandler::createTables()
                          "albumArtist varchar(30) )"))
             return(ret);
         if(!query.exec("create table tracks"                         
-                         "albumId integer, "
+                         "(albumId integer, "
                          "trackNo integer, "
                          "trackName varchar(30), "
-                         "trackTime varchar(5) )"))
+                         "trackTime varchar(5), "
+                         "constraint track1 foreign key (albumId) references albums(id) on delete cascade)"))
             return(ret);
 
         if(!query.exec("CREATE INDEX idIndex ON tracks (albumId)"))
             qDebug() << "Create index on tracks failed";
+
     }
     return ret;
 }
 
-QSqlQueryModel* dataBaseHandler::getTracksByAlbum(int albumId)
+void dataBaseHandler::getTracksByAlbum(QString albumId, QList<allTrackInfo> *p)
 {
-    QSqlQuery tracksByAlbum;
-    if(db.isOpen()){
-        tracksByAlbum.prepare("select * from tracks where albumId = ?");
-        tracksByAlbum.bindValue(0,albumId);
-        QSqlQueryModel* retModel = new QSqlQueryModel();
-        retModel->setQuery(tracksByAlbum);
-        return(retModel);
+    QSqlQuery q1;
+    q1.prepare("select * from tracks where albumId = ? order by trackNo asc");
+    q1.bindValue(0,albumId);
+    q1.exec();
+    qDebug()<<"Get Tracks from album";
+    allTrackInfo myTracks;
+
+    while (q1.next())
+    {
+        QString albumId= q1.value(0).toString();
+        QString trackNo = q1.value(1).toString();
+        QString trackName = q1.value(2).toString();
+        QString trackTime = q1.value(3).toString();
+        myTracks.albumId = albumId;
+        myTracks.trackName = trackName;
+        myTracks.trackNo = trackNo;
+        myTracks.trackTime = trackTime;
+
+        p->append(myTracks);
+        qDebug() << "getTracksByAlbum: " << albumId <<" " << trackNo << " " << trackName << " " << trackTime;
     }
-    return(NULL);
 }
 
 void dataBaseHandler::setTracksByAlbum(int albumId, QStringList albumInfo )
@@ -89,7 +103,7 @@ void dataBaseHandler::setTracksByAlbum(int albumId, QStringList albumInfo )
 
 }
 
-int dataBaseHandler::insertAlbum(int id, QString visiblename, QString realname)
+int dataBaseHandler::insertAlbum(QString visiblename, QString realname)
 {
 
     bool ret = false;
@@ -98,14 +112,14 @@ int dataBaseHandler::insertAlbum(int id, QString visiblename, QString realname)
         //http://www.sqlite.org/autoinc.html
         // NULL = is the keyword for the autoincrement to generate next value
         QSqlQuery query;
-        ret = query.exec(QString("update albums values('%0','%1','%2')")
-                         .arg(id).arg(visiblename).arg(realname));         // Get database given autoincrement value
-
+        //INSERT INTO test1(rowid, a, b) VALUES(NULL, 'ole', 'hello');
+        QString sqlStatement = QString("INSERT INTO albums(id,VisibleName,RealName) values(NULL,'%1','%2')").arg(visiblename).arg(realname);
+        ret = query.exec(sqlStatement);
     }
     return ret;
 }
 
-int dataBaseHandler::Update(int albumID, QString album, QString path)
+int dataBaseHandler::Update(QString album, QString path)
 {
     bool ret = false;
 
@@ -158,6 +172,30 @@ QString dataBaseHandler::getAlbumId(QString album)
   return "";
 }
 
+void dataBaseHandler::deleteAlbum(QString album)
+{
+    if(db.isOpen())
+    {
+        QSqlQuery query("DELETE FROM albums where VisibleName = ?");
+        query.bindValue(0,album);
+        if(!query.exec())
+            qDebug()<<"Deleting Album: " << album << " from the current database failed";
+    }
+}
+
+int dataBaseHandler::albumTrackCount(QString albumId)
+{
+    int rowCount = 0;
+    QSqlQuery query("select * FROM tracks where albumId = ?");
+    query.bindValue(0,albumId);
+    if(query.exec())
+    {
+        while (query.next()){
+            rowCount++;
+        }
+    }
+    return rowCount;
+}
 
 bool dataBaseHandler::openDB()
 {    // Find QSLite driver
@@ -246,12 +284,16 @@ void dataBaseHandler::getArtist(QList<allAlbum> *p)
     }
 }
 
-bool dataBaseHandler::deleteTabel()
+void dataBaseHandler::deleteTabel()
 {
     QSqlQuery query;
-    bool del=query.exec("DELETE FROM albums"); //Clear all albums from database
-            qDebug()<<"Deleting the current database"<<del;
-            return del;
+
+    if(!query.exec("DELETE FROM albums")) //Clear all albums from database
+        qDebug()<<"Deleting Album from the current database";
+    if(!query.exec("DELETE FROM tracks")) //Clear all albums from database
+        qDebug()<<"Deleting Tracks from the current database";
+    if(!query.exec("DROP INDEX idIndex ON tracks"))
+        qDebug() << "Drop index on itemTags failed";
 }
 
 void dataBaseHandler::syncDatabase(QList<allAlbum> *p)

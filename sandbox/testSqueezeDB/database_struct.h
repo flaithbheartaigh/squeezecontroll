@@ -31,6 +31,13 @@ SqueezeRemote is free software: you can redistribute it and/or modify
 
 } allAlbum;
 
+typedef struct{
+    QString             albumId;
+    QString             trackNo;
+    QString             trackName;
+    QString             trackTime;
+} allTrackInfo;
+
  typedef struct{
      QString            favid;
      QString            favName;

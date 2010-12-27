@@ -16,6 +16,10 @@ int main(int argc, char *argv[])
     databaseResult=myMusic->createTables();    
     qDebug()<<"Database create result="<<databaseResult;
     myMusic->insertAlbum("Ole","Ole Madsen");
+    myMusic->insertAlbum("Ole","Ole Madsen");
+    //Adding several albums with same name to see if they are ignored as there is already one
+    //I have added a UNIQUE to realName in the album table, so we avoid duplicates
+    myMusic->insertAlbum("Ole","Ole Madsen");
     databaseResult=myMusic->Update("Ole","c:/test/bla");
     QString albumId = myMusic->getAlbumId("Ole");
     QStringList myTracks;

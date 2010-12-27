@@ -38,7 +38,7 @@ bool dataBaseHandler::createTables()
         if(!query.exec("create table albums"
                          "(id integer primary key, "
                          "VisibleName varchar(30), "
-                         "RealName varchar(30),    "
+                         "RealName varchar(30) unique,    "
                          "albumPath varchar(60),   "
                          "albumArtist varchar(30) )"))
             return(ret);
@@ -309,20 +309,12 @@ void dataBaseHandler::syncDatabase(QList<allAlbum> *p)
 {
     qDebug()<<"Starting the sync process";
     qDebug()<<"elements in array"<<p->count();
-    QSqlQuery query;
-    QSqlRecord qrecord;
-
+    QSqlQuery query;    
     int a;
 
     if (db.transaction())
-    {
-//        bool del=query.exec("DELETE FROM albums"); //Clear all albums from database
-//        qDebug()<<"Deleting the current database"<<del;
-
-
-
-
-        query.prepare("INSERT INTO albums  (id, VisibleName, RealName,albumPath,albumArtist) VALUES (:id, :visiblename, :realname,:path, :albumartist)");
+    {        
+        query.prepare("INSERT INTO albums  (id, VisibleName, RealName,albumPath,albumArtist) VALUES (NULL, :visiblename, :realname,:path, :albumartist)");
 
         qDebug()<<"Albums to sync"<<p->count();
         int mydebug=0;
@@ -330,9 +322,7 @@ void dataBaseHandler::syncDatabase(QList<allAlbum> *p)
         for (a=0;a<p->count();a++)
 
         {
-
-
-            query.bindValue(":id",QVariant(p->at(a).id));
+            //query.bindValue(":id",NULL);
             query.bindValue(":visiblename", QVariant(p->at(a).albumName));
             query.bindValue(":realname", QVariant(p->at(a).albumRealName));
             query.bindValue(":path","");

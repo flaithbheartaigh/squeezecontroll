@@ -22,7 +22,7 @@ SqueezeRemote is free software: you can redistribute it and/or modify
 #include <QtSql>
 #include <QSqlError>
 #include "database_struct.h"
-class QSqlQueryModel;
+
 
 class dataBaseHandler : public QObject
 {
@@ -30,10 +30,10 @@ public:
     dataBaseHandler(QObject *parent = 0);
      ~dataBaseHandler();
      //Table operations
-     bool openDB();                         //Opens database
-     bool deleteDB();                       //Removes the actual db file
-     bool createTables();                   //Creates album and track tavles and indicies
-     void deleteTabel();                    //Deletes tables and indicies
+     bool openDB();                                                 //Opens database
+     bool deleteDB();                                               //Removes the actual db file
+     bool createTables();                                           //Creates album and track tavles and indicies
+     void deleteTabel();                                            //Deletes tables and indicies
 
      //Album operations
      int insertAlbum( QString visiblename, QString realname);       //Adds an album to the database
@@ -41,20 +41,19 @@ public:
      QString getCoverPath(QString album);                           //retrieve the cover path from album
      QString getAlbumId(QString album);                             //Gets album unique ID by "VisibleName"
      void deleteAlbum(QString album);                               //Deletes the album and all the tracks fro that album
-     int albumTrackCount(QString albumId);                          //Identifies the amount os tracks on an album
 
      //Album clustered operation
-     void getAlbums(QList<allAlbum> *p);
-     void getArtist(QList<allAlbum> *p);
+     allAlbumList* getAlbums(void);                                 //retrieves all albums sorted by name
+     allAlbumList* getArtist(void);                                 //retrieves all albums sorted by artist
 
      //Track operations
-     void getTracksByAlbum(QString albumId, QList<allTrackInfo> *p);
-     //QSqlQueryModel* getTracksByAlbum(int albumId);
-     void setTracksByAlbum(int albumId, QStringList albumInfo );
+     int albumTrackCount(QString albumId);                          //Counts the amount os tracks on an album
+     allTrackInfoList* getTracksByAlbum(QString albumId);           //Get all the tracks in an album
+     void setTracksByAlbum(int albumId, QStringList albumInfo );    //append the tracks to an album
 
      void syncDatabase(QList<allAlbum> *p);
-     QSqlError lastError();
-     allAlbum myAlbum;
+     //Misc
+     QSqlError lastError();     
 
  private:
      QSqlDatabase db;

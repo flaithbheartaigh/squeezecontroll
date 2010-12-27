@@ -17,6 +17,7 @@ SqueezeRemote is free software: you can redistribute it and/or modify
 */
 
 #include "databasehandler.h"
+#include "database_struct.h"
 #include <QMessageBox>
 #include <QtSql>
 
@@ -56,14 +57,15 @@ bool dataBaseHandler::createTables()
     return ret;
 }
 
-void dataBaseHandler::getTracksByAlbum(QString albumId, QList<allTrackInfo> *p)
+allTrackInfoList* dataBaseHandler::getTracksByAlbum(QString albumId)
 {
     QSqlQuery q1;
     q1.prepare("select * from tracks where albumId = ? order by trackNo asc");
     q1.bindValue(0,albumId);
     q1.exec();
     qDebug()<<"Get Tracks from album";
-    allTrackInfo myTracks;
+    allTrackInfo* myTracks = new allTrackInfo();
+    allTrackInfoList* p = new allTrackInfoList();
 
     while (q1.next())
     {
@@ -71,19 +73,20 @@ void dataBaseHandler::getTracksByAlbum(QString albumId, QList<allTrackInfo> *p)
         QString trackNo = q1.value(1).toString();
         QString trackName = q1.value(2).toString();
         QString trackTime = q1.value(3).toString();
-        myTracks.albumId = albumId;
-        myTracks.trackName = trackName;
-        myTracks.trackNo = trackNo;
-        myTracks.trackTime = trackTime;
+        myTracks->albumId = albumId;
+        myTracks->trackName = trackName;
+        myTracks->trackNo = trackNo;
+        myTracks->trackTime = trackTime;
 
         p->append(myTracks);
         qDebug() << "getTracksByAlbum: " << albumId <<" " << trackNo << " " << trackName << " " << trackTime;
     }
+    return p;
 }
 
 void dataBaseHandler::setTracksByAlbum(int albumId, QStringList albumInfo )
 {
-    //Delete the tracks if any at first???
+
     foreach (QString str, albumInfo) {
         QStringList values = str.split(";", QString::SkipEmptyParts);
         QSqlQuery query;
@@ -240,48 +243,54 @@ bool dataBaseHandler::deleteDB()
 #endif
 }
 
-void dataBaseHandler::getAlbums(QList<allAlbum> *p)
+allAlbumList* dataBaseHandler::getAlbums(void)
 {
     QSqlQuery q1("SELECT * FROM albums order by VisibleName asc");
     qDebug()<<"Get albums from database";
-    
+    allAlbumList* p = new allAlbumList();
+
     while (q1.next())
     {
+        allAlbum* myAlbum = new allAlbum();
         QString id= q1.value(0).toString();
         QString visName = q1.value(1).toString();
         QString relName = q1.value(2).toString();
         QString albumPath = q1.value(3).toString();
         QString albumArtist = q1.value(4).toString();
-        myAlbum.id=id;
-        myAlbum.albumName=visName;
-        myAlbum.albumRealName=relName;
-        myAlbum.albumArtPath=albumPath;
-        myAlbum.albumArtist=albumArtist;
+        myAlbum->id=id;
+        myAlbum->albumName=visName;
+        myAlbum->albumRealName=relName;
+        myAlbum->albumArtPath=albumPath;
+        myAlbum->albumArtist=albumArtist;
         p->append(myAlbum);
         qDebug()<<id<<" "<<relName<<" "<<visName<<" "<<albumPath<<" "<<albumArtist;
     }
+    return p;
 }
 
-void dataBaseHandler::getArtist(QList<allAlbum> *p)
+allAlbumList* dataBaseHandler::getArtist()
 {
     QSqlQuery q1("SELECT * FROM albums order by albumArtist asc");
     qDebug()<<"Get albums from database";
+    allAlbumList* p = new allAlbumList();
 
     while (q1.next())
     {
+        allAlbum* myAlbum = new allAlbum();
         QString id= q1.value(0).toString();
         QString visName = q1.value(1).toString();
         QString relName = q1.value(2).toString();
         QString albumPath = q1.value(3).toString();
         QString albumArtist = q1.value(4).toString();
-        myAlbum.id=id;
-        myAlbum.albumName=albumArtist;
-        myAlbum.albumRealName=relName;
-        myAlbum.albumArtPath=albumPath;
-        myAlbum.albumArtist=visName;
+        myAlbum->id=id;
+        myAlbum->albumName=visName;
+        myAlbum->albumRealName=relName;
+        myAlbum->albumArtPath=albumPath;
+        myAlbum->albumArtist=albumArtist;
         p->append(myAlbum);
         qDebug()<<id<<" "<<relName<<" "<<visName<<" "<<albumPath<<" "<<albumArtist;
     }
+    return p;
 }
 
 void dataBaseHandler::deleteTabel()

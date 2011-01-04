@@ -310,11 +310,22 @@ void dataBaseHandler::syncDatabase(QList<allAlbum> *p)
     qDebug()<<"Starting the sync process";
     qDebug()<<"elements in array"<<p->count();
     QSqlQuery query;    
+    QSqlQuery query_temp;
     int a;
+    //First create a temporary table with all the albums from the squeeze
+    // and L Join is then used to delete the albums from the album table that is not in the new squeeze table
+    if(!query.exec("create table temp_albums"
+                     "(id integer primary key, "
+                     "VisibleName varchar(30), "
+                     "RealName varchar(30) unique,    "
+                     "albumPath varchar(60),   "
+                     "albumArtist varchar(30) )"))
+        qDebug() << "error in creating temp_albums. Not fatal " << db.lastError();
 
     if (db.transaction())
     {        
         query.prepare("INSERT INTO albums  (id, VisibleName, RealName,albumPath,albumArtist) VALUES (NULL, :visiblename, :realname,:path, :albumartist)");
+        query_temp.prepare("INSERT INTO temp_albums  (id, VisibleName, RealName,albumPath,albumArtist) VALUES (NULL, :visiblename, :realname,:path, :albumartist)");
 
         qDebug()<<"Albums to sync"<<p->count();
         int mydebug=0;
@@ -328,15 +339,22 @@ void dataBaseHandler::syncDatabase(QList<allAlbum> *p)
             query.bindValue(":path","");
             query.bindValue(":albumartist",QVariant(p->at(a).albumArtist));
 
-//qDebug()<<"ID="<<p->at(1).id;
-//            query.bindValue(":id",p->at(a).id);
-//            query.bindValue(":visiblename", "dewd");
-//            query.bindValue(":realname", "de");
+            query_temp.bindValue(":visiblename", QVariant(p->at(a).albumName));
+            query_temp.bindValue(":realname", QVariant(p->at(a).albumRealName));
+            query_temp.bindValue(":path","");
+            query_temp.bindValue(":albumartist",QVariant(p->at(a).albumArtist));
 
             if(!query.exec())
             {
                 qDebug()<<"album nr="<<mydebug++<<"Name="<<p->at(a).albumName<<" Album Artist="<<p->at(a).albumArtist;
                 qFatal("Failed to add album");
+
+            }
+
+            if(!query_temp.exec())
+            {
+                qDebug()<<"album nr="<<mydebug++<<"Name="<<p->at(a).albumName<<" Album Artist="<<p->at(a).albumArtist;
+                qFatal("Failed to add temp_album");
 
             }
             qDebug()<<"album nr="<<mydebug++<<"Name="<<p->at(a).albumName<<" Album Artist="<<p->at(a).albumArtist;
@@ -359,5 +377,26 @@ void dataBaseHandler::syncDatabase(QList<allAlbum> *p)
 //        }
         db.commit();
     }
+
+    if (db.transaction()) //Can be made more efficient by making a more intelligent query
+    {
+        //Now delete the albums that are no longer in the Squeeze but in the albums table
+        query.exec("SELECT albums.VisibleName, temp_albums.VisibleName from albums FULL JOIN temp_albums ON albums.VisibleName = temp_albums.VisibleName WHERE temp_albums.VisibleName = NULL ");
+        while (query.next())
+        {
+            QString deleteAlbum;
+            deleteAlbum = query.value(0).toString();
+            QString mySql = QString("DELETE FROM albums WHERE albums.Visiblename = '%0'").arg(deleteAlbum);
+            QSqlQuery deleteQuery(mySql);
+
+            if(!deleteQuery.exec())
+                qDebug()<< "Deleting the album: " << deleteAlbum;
+        }
+
+        db.commit();
+    }
+
+    if(!query.exec("DROP TABLE temp_albums"))
+        qDebug() << "Last error = " << db.lastError();
 
 }

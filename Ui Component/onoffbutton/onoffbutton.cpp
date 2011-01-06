@@ -1,6 +1,8 @@
 #include "onoffbutton.h"
-#define size_width 100.0
+#define size_width 140.0
 #define size_height 35.0
+#define handle_width 50
+#define animation_width handle_width+5
 
 OnOffButton::OnOffButton(QWidget *parent) :
     QWidget(parent)
@@ -26,7 +28,7 @@ if ((abs(mStartXpos-mPosX)>size_width/4)||(!mMouseMoved))
 
     if (mButtonState)
     {
-        animate(mPosX,size_width-24);
+        animate(mPosX,size_width-animation_width);
     }
     else
     {
@@ -39,14 +41,18 @@ void OnOffButton::mouseMoveEvent(QMouseEvent *e)
 {
 
     int x;
-    if (abs(mStartXpos-e->pos().x()>10))
-    mMouseMoved=true;
+    qDebug()<<abs(mStartXpos-e->pos().x());
+    if ((abs(mStartXpos-e->pos().x())>2)||(mMouseMoved==true))
+    {
+    qDebug("Mouse Move Ok");
+        mMouseMoved=true;
     if (e->pos().x()<4) x=4;
-    else if(e->pos().x()>size_width-24) x=size_width-24;
+    else if(e->pos().x()>size_width-animation_width) x=size_width-animation_width;
     else x=e->pos().x();
     mPosX=x;
 
     update();
+}
 }
 
 void OnOffButton::animate(int xStart, int xEnd)
@@ -70,8 +76,7 @@ void OnOffButton::paintEvent(QPaintEvent *e)
 {
     QPainter p(this);
 
-    p.setPen(QColor(136,136,136));
-    p.drawText((size_width/2)+mPosX,25,"OFF");
+
 
 
 
@@ -87,8 +92,19 @@ void OnOffButton::paintEvent(QPaintEvent *e)
     p.drawText((-size_width/2)+mPosX,25,"ON");
 
 
+    QRectF rectangle4(27.0+mPosX, 0.0, size_width-mPosX,size_height-0.1);
+    QLinearGradient fade1(0, 0, 0, height());
+    fade1.setColorAt(0, QColor(231, 231, 231, 255));
+    fade1.setColorAt(1, QColor(255, 255, 255, 255));
+    p.setBrush(fade1);
+    p.drawRoundedRect(rectangle4,7.0,7.0);
+
+    p.setPen(QColor(136,136,136));
+    p.drawText((size_width/2)+mPosX,25,"OFF");
+
+
     p.setPen(QColor(176,176,176));
-    QRectF rectangle(mPosX-3, 0.0, 30, size_height);
+    QRectF rectangle(mPosX-3, 0.0, handle_width, size_height);
 
     QLinearGradient fade(0, 0, 0, height()/3);
     fade.setColorAt(0, QColor(201, 201, 201, 255));
@@ -98,9 +114,7 @@ void OnOffButton::paintEvent(QPaintEvent *e)
 
 
 
-    //QLinearGradient fade1(0, 0, 0, height());
-    //fade1.setColorAt(0, QColor(221, 221, 221, 255));
-    //fade1.setColorAt(1, QColor(255, 255, 255, 255));
+
     p.setBrush(Qt::NoBrush);
     QRectF rectangle1(0.0, 0.1, size_width+4, size_height);
     p.drawRoundedRect(rectangle1, 7.0, 7.0);

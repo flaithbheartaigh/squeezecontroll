@@ -1,7 +1,11 @@
 #include "onoffbutton.h"
-#define size_width 140.0
+#define size_width 110.0
 #define size_height 35.0
 #define handle_width 50
+#define onOffset 10
+#define offOffset 5
+#define textYOffset 25
+#define rectRadius 7.0
 #define animation_width handle_width+5
 
 OnOffButton::OnOffButton(QWidget *parent) :
@@ -12,12 +16,15 @@ OnOffButton::OnOffButton(QWidget *parent) :
     setMaximumSize(size_width+5.0,size_height+2);
     mPosX=4;
     mMouseMoved=false;
+    mMousePressed=false;
 
 }
 
 void OnOffButton::mousePressEvent(QMouseEvent *e)
 {
     mStartXpos=e->pos().x();
+    mMousePressed=true;
+qDebug()<<"Mouse press "<<mStartXpos;
 }
 
 void OnOffButton::mouseReleaseEvent(QMouseEvent *e)
@@ -27,7 +34,7 @@ void OnOffButton::mouseReleaseEvent(QMouseEvent *e)
 
 
 
-    if ((abs(mStartXpos-e->pos().x())>(size_width/2.5))||(!mMouseMoved))
+    if (((abs(mStartXpos-e->pos().x())>(size_width/2.5))&&(mMouseMoved))||((!mMouseMoved)&&(mMousePressed)))
         mButtonState=!mButtonState;
 
 
@@ -40,39 +47,44 @@ void OnOffButton::mouseReleaseEvent(QMouseEvent *e)
         animate(mPosX,4);
     }
     mMouseMoved=false;
+    mMousePressed=false;
 }
 
 void OnOffButton::mouseMoveEvent(QMouseEvent *e)
 {
 
     int x;
+    bool doUpdate=false;
     //qDebug()<<abs(mStartXpos-e->pos().x());
-    if ((abs(mStartXpos-e->pos().x())>2)||(mMouseMoved==true))
+    qDebug()<<"Mouse move "<<e->pos().x();
+    qDebug()<<"mPOsx "<<mPosX;
+    if ((abs(mStartXpos-e->pos().x())>8)||(mMouseMoved==true))
     {
-       // qDebug("Mouse Move Ok");
-        mMouseMoved=true;
+        qDebug()<<"mPOsx "<<mPosX;
 
-        if(e->pos().x()<mStartXpos)
+
+        if((e->pos().x()<mStartXpos)&&(mPosX>4))
         {
             x=((size_width-handle_width)-(abs(mStartXpos-e->pos().x())));
-         //   qDebug()<<"x1="<<x;
+            qDebug()<<"x1="<<x;
+            doUpdate=true;
+            mMouseMoved=true;
         }
-        else
+        else if((e->pos().x()>mStartXpos)&&(mPosX<size_width-handle_width+5))
         {
             x=((abs(mStartXpos-e->pos().x())));
-           // qDebug()<<"x2="<<x;
+            qDebug()<<"x2="<<x;
+            doUpdate=true;
+            mMouseMoved=true;
         }
 
 
 
-        if(x<4) x=4;
-        else if(x>size_width-handle_width) x=5+size_width-handle_width;
-
-
-
+        if(doUpdate)
+        {
         mPosX=x;
-
         update();
+    }
     }
 }
 
@@ -107,10 +119,10 @@ void OnOffButton::paintEvent(QPaintEvent *e)
     fade2.setColorAt(0, QColor(0, 39, 255, 255));
     fade2.setColorAt(1, QColor(113, 165, 255, 255));
     p.setBrush(fade2);
-    p.drawRoundedRect(rectangle3,7.0,7.0);
+    p.drawRoundedRect(rectangle3,rectRadius,rectRadius);
 
     p.setPen(QColor(255,255,255));
-    p.drawText((-size_width/2)+mPosX,25,"ON");
+    p.drawText((-size_width/2)+mPosX+onOffset,textYOffset,"ON");
 
 
     QRectF rectangle4(27.0+mPosX, 0.0, size_width-mPosX,size_height-0.1);
@@ -118,10 +130,10 @@ void OnOffButton::paintEvent(QPaintEvent *e)
     fade1.setColorAt(0, QColor(231, 231, 231, 255));
     fade1.setColorAt(1, QColor(255, 255, 255, 255));
     p.setBrush(fade1);
-    p.drawRoundedRect(rectangle4,7.0,7.0);
+    p.drawRoundedRect(rectangle4,rectRadius,rectRadius);
 
     p.setPen(QColor(136,136,136));
-    p.drawText((size_width/2)+mPosX,25,"OFF");
+    p.drawText((size_width/2)+mPosX+offOffset,textYOffset,"OFF");
 
 
     p.setPen(QColor(176,176,176));
@@ -131,14 +143,14 @@ void OnOffButton::paintEvent(QPaintEvent *e)
     fade.setColorAt(0, QColor(201, 201, 201, 255));
     fade.setColorAt(1, QColor(255, 255, 255, 255));
     p.setBrush(fade);
-    p.drawRoundedRect(rectangle,7.0,7.0);
+    p.drawRoundedRect(rectangle,rectRadius,rectRadius);
 
 
 
 
     p.setBrush(Qt::NoBrush);
     QRectF rectangle1(0.0, 0.1, size_width+4, size_height);
-    p.drawRoundedRect(rectangle1, 7.0, 7.0);
+    p.drawRoundedRect(rectangle1, rectRadius, rectRadius);
 
 
 

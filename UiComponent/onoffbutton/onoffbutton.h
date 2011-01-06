@@ -20,6 +20,7 @@ public:
 private:
 bool mButtonState;
 bool mMouseMoved;
+bool mMousePressed;
 int mStartXpos;
 int mPosX;
 void animate(int xStart,int xEnd);

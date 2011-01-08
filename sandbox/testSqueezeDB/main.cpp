@@ -2,12 +2,14 @@
 #include "database_struct.h"
 #include "databasehandler.h"
 
+QList<allAlbum> allTempAlbums;
+QList<allAlbum> allAlbums;
+QList<allTrackInfo> allTracks;
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     dataBaseHandler* myMusic;
-    allAlbumList* allAlbums;
-    allTrackInfoList* allTracks;
     bool databaseResult = false;
 
     myMusic = new dataBaseHandler(NULL);
@@ -20,6 +22,9 @@ int main(int argc, char *argv[])
     //Adding several albums with same name to see if they are ignored as there is already one
     //I have added a UNIQUE to realName in the album table, so we avoid duplicates
     myMusic->insertAlbum("Ole","Ole Madsen");
+    myMusic->insertAlbum("Peter","Peter Madsen");
+
+    myMusic->insertAlbum("Annie","Annie Madsen");
     databaseResult=myMusic->Update("Ole","c:/test/bla");
     QString albumId = myMusic->getAlbumId("Ole");
     QStringList myTracks;
@@ -31,16 +36,34 @@ int main(int argc, char *argv[])
     qDebug() << "Number of tracks in Ole = " << myMusic->albumTrackCount(albumId);
     //myMusic->getCoverPath("Abbey Road");
     qDebug()<<"Database Update result="<<databaseResult;
-    allAlbums = myMusic->getAlbums();
-    allTracks = myMusic->getTracksByAlbum(albumId);
-    delete allTracks;
+    myMusic->getAlbums(&allAlbums);
+    myMusic->getTracksByAlbum(albumId, &allTracks);
+    //delete allTracks;
     //Delete the album and see if the tracks are still there
     myMusic->deleteAlbum("Ole");
     //Can you see the album still?
     albumId = myMusic->getAlbumId("Ole");
     qDebug() << "Number of tracks in Ole = " << myMusic->albumTrackCount(albumId);
-    allTracks = myMusic->getTracksByAlbum(albumId);
+    myMusic->getTracksByAlbum(albumId, &allTracks);
     //upDateAlbumList();
+    //Sync the database
+    myMusic->insertAlbum("Ole","Ole Madsen"); // So we have Ole, Peter & Annie in table
 
+    allAlbum myAlbum;
+    myAlbum.albumName = "Annie";
+    myAlbum.albumRealName = "Annie Madsen";
+    allTempAlbums.append(myAlbum);
+    myAlbum.albumName = "Peter";
+    myAlbum.albumRealName = "Peter Madsen";
+    allTempAlbums.append(myAlbum);
+    myAlbum.albumName = "John";
+    myAlbum.albumRealName = "John Madsen";   //New member is John and Ole is gone from Squeeze
+    allTempAlbums.append(myAlbum);
+    myMusic->syncDatabase(&allTempAlbums);
+    allAlbums.clear();
+    myMusic->getAlbums(&allAlbums);
+    albumId = myMusic->getAlbumId("Ole"); //Should be missing now
+    qDebug() << "Number of tracks in Ole = " << myMusic->albumTrackCount(albumId);
+    myMusic->getTracksByAlbum(albumId, &allTracks);
     return a.exec();
 }

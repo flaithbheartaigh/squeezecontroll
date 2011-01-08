@@ -43,12 +43,14 @@ public:
      void deleteAlbum(QString album);                               //Deletes the album and all the tracks fro that album
 
      //Album clustered operation
-     allAlbumList* getAlbums(void);                                 //retrieves all albums sorted by name
-     allAlbumList* getArtist(void);                                 //retrieves all albums sorted by artist
+     //allAlbumList* getAlbums(void);                                 //retrieves all albums sorted by name
+     //allAlbumList* getArtist(void);                                 //retrieves all albums sorted by artist
+     void getAlbums(QList<allAlbum> *p);
+     void getArtist(QList<allAlbum> *p);
 
      //Track operations
      int albumTrackCount(QString albumId);                          //Counts the amount os tracks on an album
-     allTrackInfoList* getTracksByAlbum(QString albumId);           //Get all the tracks in an album
+     void getTracksByAlbum(const QString albumId, QList<allTrackInfo> *p);           //Get all the tracks in an album
      void setTracksByAlbum(int albumId, QStringList albumInfo );    //append the tracks to an album
 
      void syncDatabase(QList<allAlbum> *p);

@@ -36,11 +36,12 @@ bool dataBaseHandler::createTables()
     {
         QSqlQuery query;
         if(!query.exec("create table albums"
-                         "(id integer primary key, "
+                         "(id integer primary key, "                         
                          "VisibleName varchar(30), "
                          "RealName varchar(30) unique,    "
                          "albumPath varchar(60),   "
-                         "albumArtist varchar(30) )"))
+                         "albumArtist varchar(30), "
+                         "Mark bool) "))
             return(ret);
         if(!query.exec("create table tracks"                         
                          "(albumId integer, "
@@ -57,15 +58,15 @@ bool dataBaseHandler::createTables()
     return ret;
 }
 
-allTrackInfoList* dataBaseHandler::getTracksByAlbum(QString albumId)
+void dataBaseHandler::getTracksByAlbum(const QString albumId, QList<allTrackInfo> *p)
 {
     QSqlQuery q1;
     q1.prepare("select * from tracks where albumId = ? order by trackNo asc");
     q1.bindValue(0,albumId);
     q1.exec();
     qDebug()<<"Get Tracks from album";
-    allTrackInfo* myTracks = new allTrackInfo();
-    allTrackInfoList* p = new allTrackInfoList();
+    allTrackInfo myTracks; // = new allTrackInfo();
+    //allTrackInfoList* p = new allTrackInfoList();
 
     while (q1.next())
     {
@@ -73,15 +74,15 @@ allTrackInfoList* dataBaseHandler::getTracksByAlbum(QString albumId)
         QString trackNo = q1.value(1).toString();
         QString trackName = q1.value(2).toString();
         QString trackTime = q1.value(3).toString();
-        myTracks->albumId = albumId;
-        myTracks->trackName = trackName;
-        myTracks->trackNo = trackNo;
-        myTracks->trackTime = trackTime;
+        myTracks.albumId = albumId;
+        myTracks.trackName = trackName;
+        myTracks.trackNo = trackNo;
+        myTracks.trackTime = trackTime;
 
         p->append(myTracks);
         qDebug() << "getTracksByAlbum: " << albumId <<" " << trackNo << " " << trackName << " " << trackTime;
     }
-    return p;
+    //return p;
 }
 
 void dataBaseHandler::setTracksByAlbum(int albumId, QStringList albumInfo )
@@ -243,54 +244,57 @@ bool dataBaseHandler::deleteDB()
 #endif
 }
 
-allAlbumList* dataBaseHandler::getAlbums(void)
+//allAlbumList* dataBaseHandler::getAlbums(void)
+void dataBaseHandler::getAlbums(QList<allAlbum> *p)
 {
     QSqlQuery q1("SELECT * FROM albums order by VisibleName asc");
     qDebug()<<"Get albums from database";
-    allAlbumList* p = new allAlbumList();
+    //allAlbumList* p = new allAlbumList();
 
     while (q1.next())
     {
-        allAlbum* myAlbum = new allAlbum();
+        allAlbum myAlbum;// = new allAlbum();
         QString id= q1.value(0).toString();
         QString visName = q1.value(1).toString();
         QString relName = q1.value(2).toString();
         QString albumPath = q1.value(3).toString();
         QString albumArtist = q1.value(4).toString();
-        myAlbum->id=id;
-        myAlbum->albumName=visName;
-        myAlbum->albumRealName=relName;
-        myAlbum->albumArtPath=albumPath;
-        myAlbum->albumArtist=albumArtist;
+        bool Mark = q1.value(5).toBool();
+        myAlbum.id=id;
+        myAlbum.albumName=visName;
+        myAlbum.albumRealName=relName;
+        myAlbum.albumArtPath=albumPath;
+        myAlbum.albumArtist=albumArtist;
         p->append(myAlbum);
         qDebug()<<id<<" "<<relName<<" "<<visName<<" "<<albumPath<<" "<<albumArtist;
     }
-    return p;
+    //return p;
 }
 
-allAlbumList* dataBaseHandler::getArtist()
+//allAlbumList* dataBaseHandler::getArtist()
+void dataBaseHandler::getArtist(QList<allAlbum> *p)
 {
     QSqlQuery q1("SELECT * FROM albums order by albumArtist asc");
     qDebug()<<"Get albums from database";
-    allAlbumList* p = new allAlbumList();
+    //allAlbumList* p = new allAlbumList();
 
     while (q1.next())
     {
-        allAlbum* myAlbum = new allAlbum();
+        allAlbum myAlbum;// = new allAlbum();
         QString id= q1.value(0).toString();
         QString visName = q1.value(1).toString();
         QString relName = q1.value(2).toString();
         QString albumPath = q1.value(3).toString();
         QString albumArtist = q1.value(4).toString();
-        myAlbum->id=id;
-        myAlbum->albumName=visName;
-        myAlbum->albumRealName=relName;
-        myAlbum->albumArtPath=albumPath;
-        myAlbum->albumArtist=albumArtist;
+        myAlbum.id=id;
+        myAlbum.albumName=visName;
+        myAlbum.albumRealName=relName;
+        myAlbum.albumArtPath=albumPath;
+        myAlbum.albumArtist=albumArtist;
         p->append(myAlbum);
         qDebug()<<id<<" "<<relName<<" "<<visName<<" "<<albumPath<<" "<<albumArtist;
     }
-    return p;
+    //return p;
 }
 
 void dataBaseHandler::deleteTabel()
@@ -346,15 +350,15 @@ void dataBaseHandler::syncDatabase(QList<allAlbum> *p)
 
             if(!query.exec())
             {
-                qDebug()<<"album nr="<<mydebug++<<"Name="<<p->at(a).albumName<<" Album Artist="<<p->at(a).albumArtist;
-                qFatal("Failed to add album");
+                qDebug()<<"Failed to add album nr="<<mydebug++<<"Name="<<p->at(a).albumName<<" Album Artist="<<p->at(a).albumArtist;
+                //qFatal("Failed to add album");
 
             }
 
             if(!query_temp.exec())
             {
-                qDebug()<<"album nr="<<mydebug++<<"Name="<<p->at(a).albumName<<" Album Artist="<<p->at(a).albumArtist;
-                qFatal("Failed to add temp_album");
+                qDebug()<<"Failed to add temp_album nr="<<mydebug++<<"Name="<<p->at(a).albumName<<" Album Artist="<<p->at(a).albumArtist;
+                //qFatal("Failed to add temp_album");
 
             }
             qDebug()<<"album nr="<<mydebug++<<"Name="<<p->at(a).albumName<<" Album Artist="<<p->at(a).albumArtist;
@@ -378,23 +382,23 @@ void dataBaseHandler::syncDatabase(QList<allAlbum> *p)
         db.commit();
     }
 
-    if (db.transaction()) //Can be made more efficient by making a more intelligent query
+    //if(!updateQuery.exec("UPDATE albums LEFT JOIN temp_albums ON albums.VisibleName = temp_albums.VisibleName SET Mark = 'True' WHERE (((temp_albums.VisibleName) Is Null));"))
+    if(!query.exec("SELECT albums.VisibleName, temp_albums.VisibleName FROM albums LEFT JOIN temp_albums ON albums.VisibleName = temp_albums.VisibleName WHERE ((temp_albums.VisibleName) Is Null)"))
+        qDebug() << "Updating albums with obsolete titles failed";
+    while(query.next())
     {
-        //Now delete the albums that are no longer in the Squeeze but in the albums table
-        query.exec("SELECT albums.VisibleName, temp_albums.VisibleName from albums FULL JOIN temp_albums ON albums.VisibleName = temp_albums.VisibleName WHERE temp_albums.VisibleName = NULL ");
-        while (query.next())
-        {
-            QString deleteAlbum;
-            deleteAlbum = query.value(0).toString();
-            QString mySql = QString("DELETE FROM albums WHERE albums.Visiblename = '%0'").arg(deleteAlbum);
-            QSqlQuery deleteQuery(mySql);
+        QString deleteAlbum;
+        QString tempAlbum;
+        deleteAlbum = query.value(0).toString();
+        tempAlbum = query.value(1).toString();
+        QString mySql = QString("DELETE FROM albums WHERE albums.Visiblename = '%0'").arg(deleteAlbum);
+        QSqlQuery deleteQuery(mySql);
 
-            if(!deleteQuery.exec())
-                qDebug()<< "Deleting the album: " << deleteAlbum;
-        }
+        if(!deleteQuery.exec())
+            qDebug()<< "Deleting the album: " << deleteAlbum;
 
-        db.commit();
     }
+
 
     if(!query.exec("DROP TABLE temp_albums"))
         qDebug() << "Last error = " << db.lastError();

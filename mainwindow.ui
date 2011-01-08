@@ -1,0 +1,2034 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>360</width>
+    <height>640</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-1</y>
+      <width>360</width>
+      <height>641</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+QWidget{
+background-color: rgb(44, 44, 44);
+}
+</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="lineWidth">
+     <number>2</number>
+    </property>
+    <property name="currentIndex">
+     <number>3</number>
+    </property>
+    <widget class="QWidget" name="page">
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QToolButton:pressed{ 
+border-top: 1px transparent;
+border-bottom: 1px transparent;
+border-right: 1px transparent;
+border-left: 1px transparent;
+background-color: rgba(255, 255, 255, 0);
+}
+
+QToolButton{
+background-color: rgb(5, 5, 5);
+border-top: 3px transparent;
+border-bottom:3px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent; 
+background-color: rgba(255, 255, 255, 0);
+}
+
+QToolButton#back{
+border-image: url(:/icon/agt_back-32.png) 3 3 3 3;
+
+}
+
+QToolButton#back:pressed{ 
+border-image: url(:/icon//agt_back-32.png) 3 3 3 5;
+}
+
+QToolButton#forward{
+border-image: url(:/icon/agt_forward-32.png) 3 3 3 3;
+
+}
+
+QToolButton#forward:pressed{ 
+border-image: url(:/icon//agt_forward-32.png) 3 3 3 5;
+}
+
+QPushButton#Settings{
+border-top: 1px transparent;
+border-bottom: 1px transparent;
+border-right: 1px transparent;
+border-left: 3px transparent;
+background-color: rgba(255, 255, 255, 0);
+
+border-image: url(:/icon/Settings-32.png) 2 2 2 2;
+}
+
+QPushButton#Settings:pressed{ 
+border-top: 3px transparent;
+border-bottom: 3px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent;
+border-image: url(:/icon/Settings-32.png) 1 1 1 1;
+}
+
+
+
+QLineEdit{
+color: rgb(230, 224, 255);
+font: 8pt &quot;MS Shell Dlg 2&quot;;
+background-color: rgb(5, 5,5);
+border-style:inset; 
+ border-top: 1px solid gray; 
+border-right: 1px solid gray;
+border-bottom: 1px solid white;
+ border-left: 1px solid white;  
+border-radius: 10px; 
+
+}
+QFrame{
+background-color: qlineargradient(spread:pad, x1:0.517, y1:0.852318, x2:0.522727, y2:0.068, stop:0.170455 rgba(0, 0, 0, 255), stop:0.789773 rgba(50, 50, 50, 252));
+font: 10pt &quot;MS Shell Dlg 2&quot;;
+border-style:inset; 
+ border-top: 0px solid gray; 
+border-right: 1px solid gray;
+border-bottom: 1px solid white;
+ border-left: 1px solid white;  
+border-radius: 10px; 
+padding: 0 8px; 
+
+}
+
+
+
+
+QListWidget{
+	color: rgb(255,255, 255);
+
+}
+
+QLabel{
+	color: rgb(0, 0, 255);
+
+   border-top: 1px solid gray; 
+  border-right: 1px solid gray; 
+   border-radius: 10px; 
+   padding: 0 8px; 
+    background-color: rgb(255, 255, 255);
+	background-color: rgb(7, 7, 7);
+}
+
+QSlider{
+	background-color: rgba(0, 0, 0, 0);
+}
+
+
+QSlider::groove:vertical { 
+	
+position: absolute; /* absolutely position 4px from the left and right of the widget. setting margins on the widget should work too... */ 
+left: 4px; 
+right: 8px; 
+border-radius:2px;
+border: 1px solid rgb(155, 155,150) ;
+
+
+
+} 
+
+QSlider::handle:vertical { 
+height: 40px;
+border: 1px solid;
+border-color:rgb(124, 255, 78);
+margin: 0 -2px; /* expand outside the groove */ 
+border-radius:5px;
+
+
+}
+ 
+QSlider::handle:vertical:pressed { 
+height: 40px;
+border: 1px solid rgb(155, 155,150.0) ;
+background-color: qlineargradient(spread:reflect, x1:1, y1:0.512, x2:0.546, y2:0.523364, stop:0.0225989 rgba(0, 0, 0, 225), stop:0.954802 rgba(255, 237, 19, 255));
+margin: 0 -2px; /* expand outside the groove */ 
+border-radius:5px;
+
+
+}
+
+QSlider::add-page:vertical {
+	background-color: rgba(0, 0, 0, 0);
+} 
+
+QSlider::sub-page:vertical { 
+	background-color: rgba(0, 0, 0, 0);
+
+}
+
+
+
+</string>
+     </property>
+     <widget class="QFrame" name="frame_2">
+      <property name="geometry">
+       <rect>
+        <x>-10</x>
+        <y>540</y>
+        <width>381</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton:pressed{ 
+border-top: 1px transparent;
+border-bottom: 1px transparent;
+border-right: 1px transparent;
+border-left: 1px transparent;
+background-color: rgba(255, 255, 255, 0);
+}
+
+QPushButton{
+background-color: rgb(5, 5, 5);
+border-top: 3px transparent;
+border-bottom:3px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent; 
+background-color: rgba(255, 255, 255, 0);
+}
+
+
+QPushButton#play_2{
+border-image: url(:/icon/Albums.jpg) 3 3 3 3;
+}
+
+QPushButton#play_2:pressed{ 
+border-image: url(:/icon/album_sel.jpg) 3 3 3 3;
+
+}
+
+QPushButton#skib_b_2{
+border-image: url(:/icon/artist.jpg) 3 3 2 3;
+}
+
+QPushButton#skib_b_2:pressed{ 
+border-image: url(:/icon/artist_sel.jpg) 3 3 2 3;
+		background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0.0852273 rgba(255, 255, 255, 151), stop:0.227273 rgba(255, 255, 255, 225), stop:0.505682 rgba(255, 255, 255, 200), stop:0.693182 rgba(255, 255, 255, 135), stop:0.840909 rgba(252, 252, 252, 105), stop:1 rgba(255, 255, 255, 2));
+}
+
+QPushButton#skib_f_2{
+border-image: url(:/icon/playlist.jpg) 3 3 2 3;
+}
+
+QPushButton#skib_f_2:pressed{ 
+border-image: url(:/icon/playlist_sel.jpg) 3 3 2 3;
+		background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0.0852273 rgba(255, 255, 255, 151), stop:0.227273 rgba(255, 255, 255, 225), stop:0.505682 rgba(255, 255, 255, 200), stop:0.693182 rgba(255, 255, 255, 135), stop:0.840909 rgba(252, 252, 252, 105), stop:1 rgba(255, 255, 255, 2));
+}
+
+
+
+
+
+
+
+
+
+
+</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QPushButton" name="play_2">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>20</y>
+         <width>96</width>
+         <height>74</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="skib_b_2">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>96</width>
+         <height>74</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="skib_f_2">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>20</y>
+         <width>96</width>
+         <height>74</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="track_2">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>0</y>
+         <width>141</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>BlankCursor</cursorShape>
+       </property>
+       <property name="mouseTracking">
+        <bool>false</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
+background-color: rgba(0, 0, 0, 0);
+color:rgb(221, 221, 221);
+font: 6pt &quot;MS Shell Dlg 2&quot;;
+border: 0</string>
+       </property>
+       <property name="text">
+        <string>Track 0 of 15</string>
+       </property>
+       <property name="echoMode">
+        <enum>QLineEdit::Normal</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>3</y>
+        <width>358</width>
+        <height>110</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(0, 0, 0, 210);
+font: 5pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(221, 221, 221);
+</string>
+      </property>
+      <property name="text">
+       <string>Album list</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignHCenter|Qt::AlignTop</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Settings">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>10</y>
+        <width>31</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="kineticList" name="myList" native="true">
+      <property name="geometry">
+       <rect>
+        <x>6</x>
+        <y>125</y>
+        <width>321</width>
+        <height>400</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(91, 81, 111);</string>
+      </property>
+     </widget>
+     <widget class="QFrame" name="frame_5">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>120</y>
+        <width>358</width>
+        <height>411</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QSlider" name="verticalSlider">
+       <property name="geometry">
+        <rect>
+         <x>329</x>
+         <y>10</y>
+         <width>31</width>
+         <height>391</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>1000</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="invertedAppearance">
+        <bool>true</bool>
+       </property>
+       <property name="invertedControls">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </widget>
+     <zorder>frame_2</zorder>
+     <zorder>label_7</zorder>
+     <zorder>Settings</zorder>
+     <zorder>frame_5</zorder>
+     <zorder>myList</zorder>
+    </widget>
+    <widget class="QWidget" name="page_2">
+     <property name="styleSheet">
+      <string notr="true">QToolButton:pressed{ 
+border-top: 1px transparent;
+border-bottom: 1px transparent;
+border-right: 1px transparent;
+border-left: 1px transparent;
+background-color: rgba(255, 255, 255, 0);
+}
+
+QToolButton{
+background-color: rgb(5, 5, 5);
+border-top: 3px transparent;
+border-bottom:3px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent; 
+background-color: rgba(255, 255, 255, 0);
+}
+
+QToolButton#back_2{
+border-image: url(:/icon/agt_back-32.png) 3 3 3 3;
+
+}
+
+QToolButton#back_2:pressed{ 
+border-image: url(:/icon//agt_back-32.png) 3 3 3 5;
+}
+
+QToolButton#forward_2{
+border-image: url(:/icon/agt_forward-32.png) 3 3 3 3;
+
+}
+
+QToolButton#forward_2:pressed{ 
+border-image: url(:/icon//agt_forward-32.png) 3 3 3 5;
+}
+
+
+QLineEdit{
+color: rgb(230, 224, 255);
+font: 8pt &quot;MS Shell Dlg 2&quot;;
+background-color: rgb(5, 5,5);
+border-style:inset; 
+ border-top: 1px solid gray; 
+border-right: 1px solid gray;
+border-bottom: 1px solid white;
+ border-left: 1px solid white;  
+border-radius: 10px; 
+
+}
+QFrame{
+background-color: rgb(5, 5,5);
+font: 10pt &quot;MS Shell Dlg 2&quot;;
+border-style:inset; 
+ border-top: 1px solid gray; 
+border-right: 1px solid gray;
+border-bottom: 1px solid white;
+ border-left: 1px solid white;  
+border-radius: 10px; 
+padding: 0 8px; 
+
+}
+
+QLabel{
+	color: rgb(255, 255, 255);
+
+   border-top: 1px solid gray; 
+  border-right: 1px solid gray; 
+   border-radius: 10px; 
+   padding: 0 8px; 
+    background-color: rgb(255, 255, 255);
+	background-color: rgb(7, 7, 7);
+}
+
+</string>
+     </property>
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>120</y>
+        <width>358</width>
+        <height>41</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_8">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>3</y>
+        <width>358</width>
+        <height>110</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(0, 0, 0, 210);
+font: 5pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(221, 221, 221);
+
+</string>
+      </property>
+      <property name="text">
+       <string>Search</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignHCenter|Qt::AlignTop</set>
+      </property>
+      <property name="indent">
+       <number>0</number>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="search">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>590</y>
+        <width>151</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="text">
+       <string>Search</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="play_3">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>590</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="text">
+       <string>Play</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Add">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>590</y>
+        <width>101</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="album">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>190</y>
+        <width>358</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(211, 211, 211);
+font: 5pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="contributor">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>330</y>
+        <width>358</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color:rgb(220, 220, 220);
+font: 5pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="trackliste">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>470</y>
+        <width>358</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(214, 214, 214);
+font: 5pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>168</y>
+        <width>131</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 5pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Album</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_17">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>308</y>
+        <width>131</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 5pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Artister</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>448</y>
+        <width>131</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 5pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Tracks</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_3">
+     <property name="styleSheet">
+      <string notr="true">
+QToolButton:pressed{ 
+border-top: 1px transparent;
+border-bottom: 1px transparent;
+border-right: 1px transparent;
+border-left: 1px transparent;
+background-color: rgba(255, 255, 255, 0);
+}
+
+QToolButton{
+background-color: rgb(5, 5, 5);
+border-top: 3px transparent;
+border-bottom:3px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent; 
+background-color: rgba(255, 255, 255, 0);
+}
+
+QToolButton#back_3{
+border-image: url(:/icon/agt_back-32.png) 3 3 3 3;
+
+}
+
+QToolButton#back_3:pressed{ 
+border-image: url(:/icon//agt_back-32.png) 3 3 3 5;
+}
+
+QToolButton#forward_3{
+border-image: url(:/icon/agt_forward-32.png) 3 3 3 3;
+
+}
+
+QToolButton#forward_3:pressed{ 
+border-image: url(:/icon//agt_forward-32.png) 3 3 3 5;
+}
+
+
+QLineEdit{
+color: rgb(230, 224, 255);
+font: 8pt &quot;MS Shell Dlg 2&quot;;
+background-color: rgb(5, 5,5);
+border-style:inset; 
+ border-top: 1px solid gray; 
+border-right: 1px solid gray;
+border-bottom: 1px solid white;
+ border-left: 1px solid white;  
+border-radius: 10px; 
+
+}
+QFrame{
+background-color: qlineargradient(spread:pad, x1:0.517, y1:0.852318, x2:0.522727, y2:0.068, stop:0.170455 rgba(0, 0, 0, 255), stop:0.789773 rgba(50, 50, 50, 252));
+font: 10pt &quot;MS Shell Dlg 2&quot;;
+border-style:inset; 
+ border-top: 1px solid gray; 
+border-right: 1px solid gray;
+border-bottom: 1px solid white;
+ border-left: 1px solid white;  
+border-radius: 10px; 
+padding: 0 8px; 
+
+}
+
+QFrame#frame{
+ border-top: 0px solid gray; 
+}
+QListWidget{
+	color: rgb(255,255, 255);
+
+}
+
+QLabel{
+	color: rgb(0, 0, 255);
+
+   border-top: 1px solid gray; 
+  border-right: 1px solid gray; 
+   border-radius: 10px; 
+   padding: 0 8px; 
+    background-color: rgb(255, 255, 255);
+	background-color: rgb(7, 7, 7);
+}
+
+QProgressBar{
+	color: rgb(0, 0, 255);
+
+   border-top: 1px solid gray; 
+  border-right: 1px solid gray; 
+   border-radius: 7px; 
+
+   padding: 0 3px; 
+    background-color: rgb(255, 255, 255);
+	background-color: rgb(7, 7, 7);
+}
+
+QProgressBar::chunk { 
+	background-color: qlineargradient(spread:reflect, x1:0.516864, y1:0.516, x2:0.505318, y2:0.04, stop:0.00568182 rgba(0, 61, 255, 255), stop:0.806818 rgba(66, 66, 66, 214));
+width: 1px; 
+}
+
+
+QSlider::groove:horizontal { 
+background-color: rgb(44, 44, 44);
+position: absolute; /* absolutely position 4px from the left and right of the widget. setting margins on the widget should work too... */
+height: 15px;
+width: 300px;
+margin: 0 8 0 0;
+
+
+ } 
+
+QSlider::handle:horizontal {
+
+	background-image: url(:/icon/bullet_silver_50.png);
+
+width: 30px;
+height: 10px;
+ margin: -8 -5; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */ 
+} 
+
+QSlider::add-page:horizontal {
+ background: white;
+   border-top: 1px solid gray; 
+  border-right: 1px solid gray; 
+   border-radius: 4px; 
+   padding: 0 0px; 
+  
+	background-color: rgb(0, 0, 0);
+
+} 
+
+QSlider::sub-page:horizontal {
+   border-top: 1px solid gray; 
+  border-right: 1px solid gray; 
+   border-radius: 4px; 
+   padding: 0 8px; 
+ 
+	background-color: qlineargradient(spread:reflect, x1:0.516864, y1:0.516, x2:0.505318, y2:0.04, stop:0.00568182 rgba(0, 61, 255, 255), stop:0.806818 rgba(66, 66, 66, 214));
+	
+
+}
+</string>
+     </property>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>3</y>
+        <width>358</width>
+        <height>110</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(0, 0, 0, 210);
+font: 5pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(221, 221, 221);
+padding: 0px;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+      <property name="margin">
+       <number>0</number>
+      </property>
+      <property name="indent">
+       <number>100</number>
+      </property>
+     </widget>
+     <widget class="QFrame" name="frame">
+      <property name="geometry">
+       <rect>
+        <x>-3</x>
+        <y>510</y>
+        <width>371</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton:pressed{ 
+background-color: rgb(0, 0, 0,0);
+border-top: 3px transparent;
+border-bottom: 5px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent;
+}
+
+QPushButton{
+ 
+	background-color: rgb(0, 0, 0,0);
+border-top: 3px transparent;
+border-bottom: 5px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent; 
+}
+
+
+QPushButton#play{
+border-image: url(:/icon/play.png);
+
+}
+
+QPushButton#play:pressed{ 
+border-image: url(:/icon/play.png) 3 3 2 3;
+		background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0.0852273 rgba(255, 255, 255, 151), stop:0.227273 rgba(255, 255, 255, 225), stop:0.505682 rgba(255, 255, 255, 200), stop:0.693182 rgba(255, 255, 255, 135), stop:0.840909 rgba(252, 252, 252, 105), stop:1 rgba(255, 255, 255, 2));
+}
+
+QPushButton#skib_b{
+border-image: url(:/icon/previous.png) 3 3 1 3;
+}
+
+QPushButton#skib_b:pressed{ 
+border-image: url(:/icon/previous.png) 3 3 2 3;
+		background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0.0852273 rgba(255, 255, 255, 151), stop:0.227273 rgba(255, 255, 255, 225), stop:0.505682 rgba(255, 255, 255, 200), stop:0.693182 rgba(255, 255, 255, 135), stop:0.840909 rgba(252, 252, 252, 105), stop:1 rgba(255, 255, 255, 2));
+}
+
+QPushButton#skib_f{
+border-image: url(:/icon/next.png) 3 3 2 3;
+}
+
+QPushButton#skib_f:pressed{ 
+border-image: url(:/icon/next.png) 3 3 2 3;
+	background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0.0852273 rgba(255, 255, 255, 151), stop:0.227273 rgba(255, 255, 255, 255), stop:0.505682 rgba(255, 255, 255, 237), stop:0.693182 rgba(255, 255, 255, 185), stop:0.840909 rgba(252, 252, 252, 105), stop:1 rgba(255, 255, 255, 5));
+}
+
+
+
+QPushButton#repeat{
+border-image: url(:/icon/Gnome-Media-Playlist-Repeat-32) 3 3 2 3;
+}
+
+QPushButton#repeat:pressed{ 
+border-image: url(:/icon/Gnome-Media-Playlist-Repeat-32g) 3 3 2 3;
+}
+
+QPushButton#shuffel{
+border-image: url(:/icon/Gnome-Media-Playlist-Shuffle-32) 3 3 2 3;
+}
+
+QPushButton#shuffel:pressed{ 
+border-image: url(:/icon/Gnome-Media-Playlist-Shuffle-32) 3 3 2 3;
+}
+
+QPushButton#pause{
+border-image: url(:/icon/PauseNormalBlue) 3 3 2 3;
+}
+
+QPushButton#pause:pressed{ 
+border-image: url(:/icon/PausePressedBlue) 3 3 2 3;
+}</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QPushButton" name="play">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>0</y>
+         <width>80</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="skib_b">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>0</y>
+         <width>80</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="skib_f">
+       <property name="geometry">
+        <rect>
+         <x>280</x>
+         <y>0</y>
+         <width>80</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QSlider" name="power">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>321</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(0, 0, 0, 0);</string>
+       </property>
+       <property name="sliderPosition">
+        <number>50</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="pixture">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>10</y>
+        <width>90</width>
+        <height>90</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+   border: 0px solid gray; 
+
+   border-radius: 5px; 
+
+
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+      <property name="margin">
+       <number>-10</number>
+      </property>
+      <property name="indent">
+       <number>10</number>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="track_4">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>500</y>
+        <width>141</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>BlankCursor</cursorShape>
+      </property>
+      <property name="mouseTracking">
+       <bool>false</bool>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+background-color: rgba(0, 0, 0, 5);
+color:rgb(221, 221, 221);
+font: 6pt &quot;MS Shell Dlg 2&quot;;
+border: 0</string>
+      </property>
+      <property name="text">
+       <string>Track 0 of 15</string>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Normal</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="kineticList" name="ListTrack" native="true">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>122</y>
+        <width>352</width>
+        <height>375</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QFrame" name="frame_6">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>120</y>
+        <width>358</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+     <zorder>label_6</zorder>
+     <zorder>frame</zorder>
+     <zorder>pixture</zorder>
+     <zorder>track_4</zorder>
+     <zorder>frame_6</zorder>
+     <zorder>ListTrack</zorder>
+    </widget>
+    <widget class="QWidget" name="page_4">
+     <property name="styleSheet">
+      <string notr="true">QToolButton:pressed{ 
+border-top: 1px transparent;
+border-bottom: 1px transparent;
+border-right: 1px transparent;
+border-left: 1px transparent;
+background-color: rgba(255, 255, 255, 0);
+}
+
+QToolButton{
+background-color: rgb(5, 5, 5);
+border-top: 3px transparent;
+border-bottom:3px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent; 
+background-color: rgba(255, 255, 255, 0);
+}
+
+QToolButton#back_4{
+border-image: url(:/icon/agt_back-32.png) 3 3 3 3;
+
+}
+
+QToolButton#back_4:pressed{ 
+border-image: url(:/icon//agt_back-32.png) 3 3 3 5;
+}
+
+QToolButton#forward_4{
+border-image: url(:/icon/agt_forward-32.png) 3 3 3 3;
+
+}
+
+QToolButton#forward_4:pressed{ 
+border-image: url(:/icon//agt_forward-32.png) 3 3 3 5;
+}
+
+
+
+QLineEdit{
+color: rgb(230, 224, 255);
+font: 8pt &quot;MS Shell Dlg 2&quot;;
+background-color: rgb(5, 5,5);
+border-style:inset; 
+ border-top: 1px solid gray; 
+border-right: 1px solid gray;
+border-bottom: 1px solid white;
+ border-left: 1px solid white;  
+border-radius: 10px; 
+
+}
+QFrame{
+background-color: qlineargradient(spread:pad, x1:0.517, y1:0.852318, x2:0.522727, y2:0.068, stop:0.170455 rgba(0, 0, 0, 255), stop:0.789773 rgba(50, 50, 50, 252));
+font: 10pt &quot;MS Shell Dlg 2&quot;;
+border-style:inset; 
+ border-top: 0px solid gray; 
+border-right: 1px solid gray;
+border-bottom: 1px solid white;
+ border-left: 1px solid white;  
+border-radius: 10px; 
+padding: 0 8px; 
+
+}
+
+QGroupBox{
+background-color: qlineargradient(spread:pad, x1:0.517, y1:0.852318, x2:0.522727, y2:0.068, stop:0.170455 rgba(0, 0, 0, 255), stop:0.789773 rgba(50, 50, 50, 252));
+font: 8pt &quot;MS Shell Dlg 2&quot;;
+border-style:inset; 
+ border-top: 1px solid gray; 
+border-right: 1px solid gray;
+border-bottom: 1px solid white;
+ border-left: 1px solid white;  
+border-radius: 10px; 
+padding: 0 2px; 
+color: rgb(255, 255, 255);
+}
+
+QLabel{
+	color: rgb(255, 255, 255);
+
+   border-top: 1px solid gray; 
+  border-right: 1px solid gray; 
+   border-radius: 10px; 
+   padding: 0 8px; 
+    background-color: rgb(255, 255, 255);
+	background-color: rgb(7, 7, 7);
+}
+
+QPushButton{
+font: 18pt &quot;MS Shell Dlg 2&quot;;
+background-color: qlineargradient(spread:pad, x1:0.483, y1:0.00568182, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+border-style:inset; 
+ border-top: 1px solid gray; 
+border-right: 1px solid gray;
+border-bottom: 1px solid white;
+ border-left: 1px solid white;  
+border-radius: 10px; 
+}
+
+QPushButton:pressed{ 
+	background-color: qlineargradient(spread:pad, x1:0.494, y1:1, x2:0.523, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+border-style:inset; 
+ border-top: 1px solid gray; 
+border-right: 1px solid gray;
+border-bottom: 1px solid white;
+ border-left: 1px solid white;  
+border-radius: 10px; 
+
+}</string>
+     </property>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>3</y>
+        <width>358</width>
+        <height>110</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(0, 0, 0, 210);
+font: 5pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(221, 221, 221);
+</string>
+      </property>
+      <property name="text">
+       <string>Text1</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignHCenter|Qt::AlignTop</set>
+      </property>
+     </widget>
+     <widget class="QFrame" name="frame_3">
+      <property name="geometry">
+       <rect>
+        <x>-10</x>
+        <y>540</y>
+        <width>381</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+QPushButton{
+
+background-color: qlineargradient(spread:pad, x1:0.483, y1:0.00568182, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+border-style:inset; 
+ border-top: 1px solid gray; 
+border-right: 1px solid gray;
+border-bottom: 1px solid white;
+ border-left: 1px solid white;  
+border-radius: 10px; 
+}
+
+QPushButton:pressed{ 
+	background-color: qlineargradient(spread:pad, x1:0.494, y1:1, x2:0.523, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+border-style:inset; 
+ border-top: 1px solid gray; 
+border-right: 1px solid gray;
+border-bottom: 1px solid white;
+ border-left: 1px solid white;  
+border-radius: 10px; 
+
+}</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>40</y>
+         <width>91</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>7</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 7pt &quot;MS Shell Dlg 2&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>40</y>
+         <width>121</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>7</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 7pt &quot;MS Shell Dlg 2&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Sync</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>40</y>
+         <width>91</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>7</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 7pt &quot;MS Shell Dlg 2&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Apply</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_8">
+       <property name="geometry">
+        <rect>
+         <x>310</x>
+         <y>-10</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#pushButton_8{
+border-image: url(:/icon/RecordHot1.png) ;
+	background-color: rgba(255, 255, 255, 0);
+}
+QPushButton#pushButton_8:pressed{
+border-image: url(:/icon/RecordPressed1.png) ;
+	background-color: rgba(255, 255, 255, 0);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="Network">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>130</y>
+        <width>341</width>
+        <height>361</height>
+       </rect>
+      </property>
+      <property name="mouseTracking">
+       <bool>true</bool>
+      </property>
+      <property name="title">
+       <string>Network</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>320</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Server ip, is the IP addr. on the SqueezeCenter&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 7pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>Server IP Address</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="server_ip">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>80</y>
+         <width>320</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MS Serif</family>
+         <pointsize>7</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(27, 27, 27);
+font: 7pt &quot;MS Serif&quot;;</string>
+       </property>
+       <property name="inputMask">
+        <string/>
+       </property>
+       <property name="text">
+        <string>127.0.0.1</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="server_autoconnect">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>280</y>
+         <width>320</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 7pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>Auto Connect to server on start</string>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>25</width>
+         <height>25</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_4">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>120</y>
+         <width>320</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;The Server port Nr. Is the server CLI (Command Line Interface), see SqueezeCenter network settings for port number.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;The Default number is 9090&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 7pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>Server CLI port number</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="server_port">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>160</y>
+         <width>320</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MS Serif</family>
+         <pointsize>7</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(27, 27, 27);
+font: 7pt &quot;MS Serif&quot;;</string>
+       </property>
+       <property name="inputMask">
+        <string>####; </string>
+       </property>
+       <property name="text">
+        <string>9090</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>200</y>
+         <width>320</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;The Server port Nr. Is the server CLI (Command Line Interface), see SqueezeCenter network settings for port number.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;The Default number is 9090&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 7pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 255, 255);;</string>
+       </property>
+       <property name="text">
+        <string>Server HTTP port number</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="server_port_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>240</y>
+         <width>320</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MS Serif</family>
+         <pointsize>7</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(27, 27, 27);
+font: 7pt &quot;MS Serif&quot;;</string>
+       </property>
+       <property name="inputMask">
+        <string>####; </string>
+       </property>
+       <property name="text">
+        <string>9001</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="isConnected">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>305</y>
+         <width>321</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(214, 220, 220);
+font: 12px &quot;MS Serif&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Connection ?</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="SqueezeCenter">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>170</y>
+        <width>341</width>
+        <height>321</height>
+       </rect>
+      </property>
+      <property name="mouseTracking">
+       <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QRadioButton{
+	background-color: rgba(255, 255, 255, 0);
+	color: rgb(204, 204, 204);
+}
+QLabel{
+	font: 12px &quot;MS Shell Dlg 2&quot;;
+}</string>
+      </property>
+      <property name="title">
+       <string>Squeeze Info</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+      <widget class="QLabel" name="ServerName">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>50</y>
+         <width>321</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Sever IP:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="PlayerName">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>321</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Player Name:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="NumOfPlayer">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>90</y>
+         <width>321</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Number of Players</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="PlayerIP">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>110</y>
+         <width>321</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Player IP:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="PlayerStatus">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>130</y>
+         <width>321</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Player Status</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="NumOfArtist">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>160</y>
+         <width>321</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Number of Artist</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="NumOfAlbums">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>180</y>
+         <width>321</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Number of Albums</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="NumOfTracks">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>200</y>
+         <width>321</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Number of Tracks</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="sync">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>210</y>
+        <width>341</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel
+{
+	color: rgb(199, 199, 199);
+	font: 7pt &quot;MS Shell Dlg 2&quot;;
+}</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QLabel" name="label_2">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>10</y>
+         <width>301</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Syncing to server</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="sync_label">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>40</y>
+         <width>301</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Albums to sync</string>
+       </property>
+      </widget>
+      <widget class="QProgressBar" name="progressBar">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>250</y>
+         <width>301</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+       <property name="textVisible">
+        <bool>false</bool>
+       </property>
+       <property name="format">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </widget>
+     <zorder>label_9</zorder>
+     <zorder>frame_3</zorder>
+     <zorder>SqueezeCenter</zorder>
+     <zorder>sync</zorder>
+     <zorder>Network</zorder>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="ControlBox">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-200</y>
+      <width>360</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox{
+background-color: rgba(0, 0, 0, 180);
+border-style:outset; 
+ border-top: 0px solid gray; 
+border-right: 0px solid gray;
+border-bottom: 2px solid rgb(85, 85, 127);
+ border-left: 0px solid white;  
+border-radius: 12px; 
+}
+
+QPushButton:pressed{
+	background-color: qlineargradient(spread:pad, x1:0.511, y1:0.0742273, x2:0.488273, y2:0.915, stop:0.170455 rgba(0, 0, 0, 255), stop:0.789773 rgba(50, 50, 50, 252));
+}
+
+QPushButton:focus{
+	background-color: qlineargradient(spread:pad, x1:0.511, y1:0.0742273, x2:0.488273, y2:0.915, stop:0.170455 rgba(0, 0, 0, 255), stop:0.789773 rgba(50, 50, 50, 252));
+}</string>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QPushButton" name="pushButton_6">
+     <property name="geometry">
+      <rect>
+       <x>265</x>
+       <y>-2</y>
+       <width>90</width>
+       <height>90</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton#pushButton_6{
+border-image: url(:/icon/setting-64.png) 3 3 3 3;
+
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_7">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>-2</y>
+       <width>90</width>
+       <height>90</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton#pushButton_7{
+border-image: url(:/icon/search-icon.png);
+
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_4">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>-2</y>
+       <width>90</width>
+       <height>90</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+border-image: url(:/icon/ma-Musique-icon.png) 3 3 3 3;
+
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_5">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>-2</y>
+       <width>90</width>
+       <height>90</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+border-image: url(:/icon/liste.png) ;
+
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>kineticList</class>
+   <extends>QWidget</extends>
+   <header location="global">kineticlist.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

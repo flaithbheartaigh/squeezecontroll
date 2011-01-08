@@ -1,0 +1,38 @@
+<RCC>
+    <qresource prefix="/pictures" >
+        <file>nautilus-unlock_text.png</file>
+        <file>nautilus-answer_button.png</file>
+        <file>nautilus-answer_button_pressed.png</file>
+        <file>nautilus-background.jpg</file>
+        <file>nautilus-background.png</file>
+        <file>nautilus-call_button.png</file>
+        <file>nautilus-call_text.png</file>
+        <file>nautilus-calling_profile_box.png</file>
+        <file>nautilus-delayed_call.png</file>
+        <file>nautilus-delayed_call_pressed.png</file>
+        <file>nautilus-end_call_text.png</file>
+        <file>nautilus-endcall_button.png</file>
+        <file>nautilus-endcall_button_pressed.png</file>
+        <file>nautilus-in_call_profile_box.png</file>
+        <file>nautilus-incall.png</file>
+        <file>nautilus-incall_pressed.png</file>
+        <file>nautilus-incoming_call.png</file>
+        <file>nautilus-incoming_call_pressed.png</file>
+        <file>nautilus-keycounter.png</file>
+        <file>nautilus-keycounter_pressed.png</file>
+        <file>nautilus-keydemo.png</file>
+        <file>nautilus-keydemo_pressed.png</file>
+        <file>nautilus-lock_button.png</file>
+        <file>nautilus-lock_text.png</file>
+        <file>nautilus-lsk.png</file>
+        <file>nautilus-lsk_pressed.png</file>
+        <file>nautilus-mute_button.png</file>
+        <file>nautilus-mute_button_pressed.png</file>
+        <file>nautilus-rsk.png</file>
+        <file>nautilus-rsk_pressed.png</file>
+        <file>nautilus-settings.png</file>
+        <file>nautilus-settings_pressed.png</file>
+        <file>nautilus-slider_bg.png</file>
+        <file>nautilus-unlock_button.png</file>
+    </qresource>
+</RCC>

@@ -15,14 +15,16 @@ public:
     void mouseMoveEvent(QMouseEvent *);
     void paintEvent(QPaintEvent *);
 
-
+    enum {NONE,LEFT,RIGHT} direction;
 
 private:
 bool mButtonState;
 bool mMouseMoved;
 bool mMousePressed;
 int mStartXpos;
+int mOldXPos;
 int mPosX;
+int mDirection;
 void animate(int xStart,int xEnd);
 signals:
 void buttonPressed(bool);

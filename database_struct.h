@@ -21,6 +21,7 @@ SqueezeRemote is free software: you can redistribute it and/or modify
 
 #ifndef DATABASE_STRUCT_H
 #define DATABASE_STRUCT_H
+#include <QList>
 
  typedef struct{
     QString                     id;
@@ -31,11 +32,20 @@ SqueezeRemote is free software: you can redistribute it and/or modify
 
 } allAlbum;
 
+typedef struct{
+    QString             albumId;
+    QString             trackNo;
+    QString             trackName;
+    QString             trackTime;
+} allTrackInfo;
+
  typedef struct{
      QString            favid;
      QString            favName;
      QString            favType;
  } allFavoritesStruct;
 
+typedef QList<allAlbum *> allAlbumList;
+typedef QList<allTrackInfo *> allTrackInfoList;
 
 #endif // DATABASE_STRUCT_H

@@ -259,7 +259,7 @@ void dataBaseHandler::getAlbums(QList<allAlbum> *p)
         QString relName = q1.value(2).toString();
         QString albumPath = q1.value(3).toString();
         QString albumArtist = q1.value(4).toString();
-        bool Mark = q1.value(5).toBool();
+        //bool Mark = q1.value(5).toBool();
         myAlbum.id=id;
         myAlbum.albumName=visName;
         myAlbum.albumRealName=relName;
@@ -394,7 +394,7 @@ void dataBaseHandler::syncDatabase(QList<allAlbum> *p)
         QString mySql = QString("DELETE FROM albums WHERE albums.Visiblename = '%0'").arg(deleteAlbum);
         QSqlQuery deleteQuery(mySql);
 
-        if(!deleteQuery.exec())
+        if(deleteQuery.exec())
             qDebug()<< "Deleting the album: " << deleteAlbum;
 
     }

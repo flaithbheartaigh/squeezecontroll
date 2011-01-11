@@ -111,7 +111,7 @@ MainWindow::MainWindow(QWidget *parent)
     myMusic = new dataBaseHandler(this);
     databaseResult=myMusic->openDB();    qDebug()<<"Database open result="<<databaseResult;
     if (databaseResult!=true)qFatal("DataBase not open");
-    databaseResult=myMusic->createPersonTable();
+    databaseResult=myMusic->createTables();
     qDebug()<<"Database create result="<<databaseResult;
     // databaseResult=myMusic->Update(1,"hjkhjk","c:/test/bla");
     //myMusic->getCoverPath("Abbey Road");
@@ -473,7 +473,7 @@ void MainWindow::syncDatabase()
         ui->progressBar->setMaximum(numOfIttr);
         ui->progressBar->setValue(0);
 
-        myMusic->deleteTabel();
+        //myMusic->deleteTabel();
         state=s_sync; //Set the start state
         allAlbums.clear();
         myClihandler->getTotalAlbum();
@@ -658,7 +658,7 @@ void MainWindow::receiveString(QString data)
         mySqueezeHelper->analyzeAlbums(data,&allAlbums);
         qDebug()<<"Number of albums="<<allAlbums.count();
         numOfIttr--;
-        if (numOfIttr==0)
+        if (numOfIttr==0) //Only call syncDatabase once
         {
 
             ui->sync_label->setText("Finish");

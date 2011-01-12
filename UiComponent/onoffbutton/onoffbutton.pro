@@ -13,13 +13,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
         widget.cpp \
     onoffbutton.cpp \
-    buttonpanel.cpp
+    buttonpanel.cpp \
     volumecontrol.cpp
+
 
 HEADERS  += widget.h \
     onoffbutton.h \
-    buttonpanel.h
+    buttonpanel.h \
     volumecontrol.h
+
 
 FORMS    += widget.ui
 

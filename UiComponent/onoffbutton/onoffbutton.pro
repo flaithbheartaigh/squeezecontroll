@@ -12,10 +12,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         widget.cpp \
-    onoffbutton.cpp
+    onoffbutton.cpp \
+    buttonpanel.cpp
 
 HEADERS  += widget.h \
-    onoffbutton.h
+    onoffbutton.h \
+    buttonpanel.h
 
 FORMS    += widget.ui
 
@@ -28,3 +30,6 @@ symbian {
     TARGET.EPOCSTACKSIZE = 0x14000
     TARGET.EPOCHEAPSIZE = 0x020000 0x800000
 }
+
+RESOURCES += \
+    image.qrc

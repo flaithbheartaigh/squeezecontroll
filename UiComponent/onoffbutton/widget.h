@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <onoffbutton.h>
+#include <buttonpanel.h>
 
 namespace Ui {
     class Widget;
@@ -19,6 +20,12 @@ public:
 private:
     Ui::Widget *ui;
     OnOffButton* mButton1;
+    buttonPanel* mButtonPanel;
+
+private slots:
+    void buttonPressed(buttonPanel::buttonpressed);
+
 };
+
 
 #endif // WIDGET_H

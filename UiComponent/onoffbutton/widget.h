@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <onoffbutton.h>
+#include <buttonpanel.h>
 #include "volumecontrol.h"
 
 namespace Ui {
@@ -20,7 +21,13 @@ public:
 private:
     Ui::Widget *ui;
     OnOffButton* mButton1;
+    buttonPanel* mButtonPanel;
     volumeControl* mVolume;
+
+private slots:
+    void buttonPressed(buttonPanel::buttonpressed);
+
 };
+
 
 #endif // WIDGET_H

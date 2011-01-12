@@ -18,9 +18,18 @@ Widget::Widget(QWidget *parent) :
 //    mButton1->update();
 
 //}
+mButtonPanel = new buttonPanel(this);
+mButtonPanel->move(QPoint(0,640-80));
+mButtonPanel->update();
+connect(mButtonPanel,SIGNAL(buttonReleased(buttonPanel::buttonpressed)),this,SLOT(buttonPressed(buttonPanel::buttonpressed)));
 }
 
 Widget::~Widget()
 {
     delete ui;
+}
+
+void Widget::buttonPressed(buttonPanel::buttonpressed aButton)
+{
+    qDebug()<<"You Pressed "<<aButton;
 }

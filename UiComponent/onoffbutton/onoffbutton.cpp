@@ -64,7 +64,7 @@ void OnOffButton::mouseReleaseEvent(QMouseEvent *e)
 {
     qDebug()<<abs(mStartXpos-mPosX);
 
-    if (((abs(mStartXpos-e->pos().x())>(size_width/2.5))&&(mMouseMoved))||((!mMouseMoved)&&(mMousePressed)))
+
     //First step button state check
     //We need to check the traveled distance, it has to be
     //greather the 1/3 of the total component width and
@@ -72,11 +72,9 @@ void OnOffButton::mouseReleaseEvent(QMouseEvent *e)
     //If we do not have a mouseMove detected.
     if (((abs(mStartXpos-e->pos().x())>(size_width/3))&&(mMouseMoved))||((!mMouseMoved)&&(mMousePressed)))
     {
-    qDebug()<<"Direction "<<mDirection;
+
     //Calculate if we should change the buttom state;
     if((mDirection==OnOffButton::NONE)||((mDirection==OnOffButton::RIGHT)&&(mButtonState==false))||((mDirection==OnOffButton::LEFT)&&(mButtonState==true)))
-
-    if (((abs(mStartXpos-e->pos().x())>(size_width/2.5))&&(mMouseMoved))||((!mMouseMoved)&&(mMousePressed)))
         mButtonState=!mButtonState;
 
     }
@@ -105,7 +103,6 @@ void OnOffButton::mouseMoveEvent(QMouseEvent *e)
 
 
     //Check that this is a real mouse event, this is needed for real HW.
-        mMouseMoved=true;
     if ((abs(mStartXpos-e->pos().x())>8)||(mMouseMoved==true))
     {
         mMouseMoved=true;
@@ -121,9 +118,6 @@ void OnOffButton::mouseMoveEvent(QMouseEvent *e)
         //Min and Max value for the handle
         if(mPosX<startOffset) mPosX=startOffset;
         else if(mPosX>(size_width-handle_width+offOffset)) mPosX=size_width-handle_width+offOffset;
-
-        update();               //Update the graphics
-        mOldXPos=currentXPox;   //Store the x vextor;
 
         update();               //Update the graphics
         mOldXPos=currentXPox;   //Store the x vextor;
@@ -172,7 +166,7 @@ void OnOffButton::paintEvent(QPaintEvent *e)
 //******************************************************************
     QRectF rectangle4(offAreaStart+mPosX, 0.0, offAreaEnd-mPosX,size_height-0.1);
     QLinearGradient fade1(0, 0, 0, height());
-    fade1.setColorAt(0, QColor(180, 180, 180, 255));
+    fade1.setColorAt(0, QColor(160, 160, 160, 255));
     fade1.setColorAt(0.1,QColor(241,241,241));
     fade1.setColorAt(1, QColor(255, 255, 255, 255));
     p.setBrush(fade1);

@@ -18,6 +18,7 @@ public:
     void setOffBackGroundGradien(QLinearGradient aGradient);
     void setHandleBackGroundGradien(QLinearGradient aGradient);
 
+
     enum {NONE,LEFT,RIGHT} direction;
 
 private:
@@ -28,11 +29,9 @@ int mStartXpos;
 int mOldXPos;
 int mPosX;
 int mDirection;
-
 QLinearGradient mOnBackGroundGradien,mOffBackgroundGradient,mHandleBackGroundGradient;
 
 void animate(int xStart,int xEnd);
-
 signals:
 void buttonPressed(bool);
 

@@ -11,13 +11,13 @@ Widget::Widget(QWidget *parent) :
 
     mVolume->move(QPoint(10,100));
 
-//    for(int a=0;a<10;a++)
-//    {
-//    mButton1 = new OnOffButton(this);
-//    mButton1->move(QPoint(200,10+(a*40)));
-//    mButton1->update();
+    for(int a=0;a<10;a++)
+    {
+    mButton1 = new OnOffButton(this);
+    mButton1->move(QPoint(200,10+(a*40)));
+    mButton1->update();
 
-//}
+}
 mButtonPanel = new buttonPanel(this);
 mButtonPanel->move(QPoint(0,640-80));
 mButtonPanel->update();

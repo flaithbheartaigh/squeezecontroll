@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Icon/albums_off.png</file>
+        <file>Icon/albums_on.png</file>
+        <file>Icon/artist_off.png</file>
+        <file>Icon/artist_on.png</file>
+        <file>Icon/genres_off.png</file>
+        <file>Icon/genres_on.png</file>
+        <file>Icon/more_off.png</file>
+        <file>Icon/more_on.png</file>
+        <file>Icon/PlayList_off.png</file>
+    </qresource>
+</RCC>

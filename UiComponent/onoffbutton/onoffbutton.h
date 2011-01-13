@@ -14,6 +14,9 @@ public:
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
     void paintEvent(QPaintEvent *);
+    void setOnBackGroundGradien(QLinearGradient aGradient);
+    void setOffBackGroundGradien(QLinearGradient aGradient);
+    void setHandleBackGroundGradien(QLinearGradient aGradient);
 
     enum {NONE,LEFT,RIGHT} direction;
 
@@ -25,12 +28,17 @@ int mStartXpos;
 int mOldXPos;
 int mPosX;
 int mDirection;
+
+QLinearGradient mOnBackGroundGradien,mOffBackgroundGradient,mHandleBackGroundGradient;
+
 void animate(int xStart,int xEnd);
+
 signals:
 void buttonPressed(bool);
 
 public slots:
 void updateAnimation(int);
+
 
 };
 

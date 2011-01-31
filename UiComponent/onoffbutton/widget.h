@@ -5,6 +5,8 @@
 #include <onoffbutton.h>
 #include <buttonpanel.h>
 #include "volumecontrol.h"
+#include "volumeinfo.h"
+#include <QTimer>
 
 namespace Ui {
     class Widget;
@@ -23,9 +25,14 @@ private:
     OnOffButton* mButton1;
     buttonPanel* mButtonPanel;
     volumeControl* mVolume;
+    QTimer *mTimer;
+
 
 private slots:
     void buttonPressed(buttonPanel::buttonpressed);
+    void volumenControl(int);
+    void removeVolumeInfo();
+
 
 };
 

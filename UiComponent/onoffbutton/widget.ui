@@ -19,10 +19,20 @@
   <widget class="OnOffButton" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>210</y>
+     <x>20</x>
+     <y>560</y>
      <width>81</width>
      <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="VolumeInfo" name="widget_2" native="true">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>20</y>
+     <width>120</width>
+     <height>80</height>
     </rect>
    </property>
   </widget>
@@ -33,6 +43,12 @@
    <class>OnOffButton</class>
    <extends>QWidget</extends>
    <header location="global">onoffbutton.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VolumeInfo</class>
+   <extends>QWidget</extends>
+   <header location="global">volumeinfo.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

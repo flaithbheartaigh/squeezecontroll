@@ -8,6 +8,9 @@ volumeControl::volumeControl(QWidget *parent) :
 {
 mPosX=0;
 setWidth(width);
+mFactor=100.0/width;
+value=0;
+
 }
 
 
@@ -28,7 +31,7 @@ void volumeControl::paintEvent(QPaintEvent *e)
 
 
 
-    QRectF rectangle3(0.0, 7.5, 250, 15.0);
+    QRectF rectangle3(10.0, 7.5,230.0, 15.0);
     QLinearGradient fade2(0.0, 7.5,0.0, 22.5);
 
     fade2.setColorAt(0, QColor(250, 250, 255, 255));
@@ -62,6 +65,25 @@ void volumeControl::paintEvent(QPaintEvent *e)
 void volumeControl::mouseMoveEvent(QMouseEvent *e)
 {
 
-    mPosX=e->pos().x();
+
+    if((e->pos().x()>15)&&(e->pos().x()<width-15))
+    {
+
+        mPosX=e->pos().x();
+    }
+
     update();
+
+    value=e->pos().x()*mFactor;
+    if(e->pos().x()<0)
+    {
+    value=0;
+    }
+    else if(e->pos().x()>width)
+    {
+        value=width*mFactor;
+    }
+
+    emit sendVolume(value);
+
 }

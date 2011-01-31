@@ -14,16 +14,19 @@ SOURCES += main.cpp\
         widget.cpp \
     onoffbutton.cpp \
     buttonpanel.cpp \
-    volumecontrol.cpp
+    volumecontrol.cpp \
+    volumeinfo.cpp
 
 
 HEADERS  += widget.h \
     onoffbutton.h \
     buttonpanel.h \
-    volumecontrol.h
+    volumecontrol.h \
+    volumeinfo.h
 
 
-FORMS    += widget.ui
+FORMS    += widget.ui \
+    volumeinfo.ui
 
 CONFIG += mobility
 MOBILITY = 

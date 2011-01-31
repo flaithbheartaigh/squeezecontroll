@@ -17,10 +17,14 @@ public:
 private:
    int mVolumeControlWidth;
    int mPosX;
+   float mFactor;
+   int value;
 
 signals:
+   void sendVolume(int);
 
 public slots:
+
 
 };
 

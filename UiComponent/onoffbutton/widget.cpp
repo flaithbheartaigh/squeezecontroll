@@ -15,7 +15,7 @@ Widget::Widget(QWidget *parent) :
     for(int a=0;a<10;a++)
     {
     mButton1 = new OnOffButton(this);
-    mButton1->move(QPoint(200,10+(a*40)));
+    mButton1->move(QPoint(200,60+(a*40)));
     mButton1->update();
     mTimer = new QTimer(this);
     connect(mTimer,SIGNAL(timeout()),this,SLOT(removeVolumeInfo()));

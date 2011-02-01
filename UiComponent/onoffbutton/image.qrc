@@ -9,5 +9,12 @@
         <file>Icon/more_off.png</file>
         <file>Icon/more_on.png</file>
         <file>Icon/PlayList_off.png</file>
+        <file>Icon/bullet_silver_50.png</file>
+        <file>Icon/genres_off.png</file>
+        <file>Icon/genres_on.png</file>
+        <file>Icon/more_off.png</file>
+        <file>Icon/more_on.png</file>
+        <file>Icon/next_active.png</file>
+        <file>Icon/next_idle.png</file>
     </qresource>
 </RCC>

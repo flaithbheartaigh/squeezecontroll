@@ -30,11 +30,60 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>20</y>
+     <y>70</y>
      <width>120</width>
      <height>80</height>
     </rect>
    </property>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>360</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame#frame
+{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(113, 135, 161, 255), stop:0.536723 rgba(23, 58, 100, 255), stop:0.94298 rgba(20, 52, 89, 255));
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>16</y>
+      <width>56</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+background-color: rgba(255, 255, 255, 0);
+border-image: url(:/Icon/next_idle.png);
+}
+
+QPushButton::pressed{
+background-color: rgba(255, 255, 255, 0);
+border-image: url(:/Icon/next_active.png);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

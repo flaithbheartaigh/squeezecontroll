@@ -6,11 +6,12 @@
 volumeControl::volumeControl(QWidget *parent) :
     QWidget(parent)
 {
-mPosX=0;
+mPosX=15;
 setWidth(width);
 mFactor=100.0/width;
 value=0;
-
+mHandle.load(":/Icon/bullet_silver_50.png");
+mHandle=mHandle.scaledToHeight(35,Qt::SmoothTransformation);
 }
 
 
@@ -40,20 +41,7 @@ void volumeControl::paintEvent(QPaintEvent *e)
 
     p.setBrush(fade2);
     p.drawRoundedRect(rectangle3,7.0,7.0);
-
-
-
-    QRectF rectangle2(mPosX-15, 0.0, 30, 30);
-    QLinearGradient fade1(0, 0, 0,30.0);
-
-    fade1.setColorAt(0, QColor(250, 250, 255, 255));
-    fade1.setColorAt(.5, QColor(160, 160, 160, 255));
-    fade1.setColorAt(1, QColor(250, 250, 250, 255));
-
-    p.setBrush(fade1);
-    p.drawRoundedRect(rectangle2,15.0,15.0);
-
-
+    p.drawPixmap(mPosX-15,0,mHandle);
 
 
 
@@ -65,7 +53,7 @@ void volumeControl::paintEvent(QPaintEvent *e)
 void volumeControl::mouseMoveEvent(QMouseEvent *e)
 {
 
-
+qDebug()<<"Test";
     if((e->pos().x()>15)&&(e->pos().x()<width-15))
     {
 
@@ -83,7 +71,8 @@ void volumeControl::mouseMoveEvent(QMouseEvent *e)
     {
         value=width*mFactor;
     }
-
+qDebug()<<"Test1";
     emit sendVolume(value);
+    qDebug()<<"Test2";
 
 }

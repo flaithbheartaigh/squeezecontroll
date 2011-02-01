@@ -2,6 +2,7 @@
 #define VOLUMEINFO_H
 
 #include <QWidget>
+#include <QTimeLine>
 
 namespace Ui {
     class VolumeInfo;
@@ -20,10 +21,14 @@ public:
 
 private:
     Ui::VolumeInfo *ui;
+    QTimeLine *timeLine;
+    bool mFadeOut;
     int mVolumen;
 
 private slots:
        void setSettingsFrameTrans(int aValue);
+       void fadeOutFinish();
+
 
 };
 

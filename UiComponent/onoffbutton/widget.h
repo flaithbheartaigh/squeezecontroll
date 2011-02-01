@@ -6,6 +6,8 @@
 #include <buttonpanel.h>
 #include "volumecontrol.h"
 #include "volumeinfo.h"
+#include "scrollarea.h"
+#include "overlay.h"
 #include <QTimer>
 
 namespace Ui {
@@ -25,6 +27,8 @@ private:
     OnOffButton* mButton1;
     buttonPanel* mButtonPanel;
     volumeControl* mVolume;
+    ScrollArea* mPanelScroll;
+    overlay *mOverLay;
     QTimer *mTimer;
 
 

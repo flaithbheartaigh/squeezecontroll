@@ -14,7 +14,11 @@
    <string>Widget</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(255, 255, 255);</string>
+   <string notr="true">QWidget#Widget
+{
+background-color: rgb(255, 255, 255);
+border: none;
+}</string>
   </property>
   <widget class="OnOffButton" name="widget" native="true">
    <property name="geometry">
@@ -39,9 +43,9 @@
   <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>-1</x>
      <y>0</y>
-     <width>360</width>
+     <width>361</width>
      <height>60</height>
     </rect>
    </property>
@@ -52,10 +56,13 @@
 }</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>0</number>
    </property>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
@@ -85,6 +92,16 @@ border-image: url(:/Icon/next_active.png);
     </property>
    </widget>
   </widget>
+  <widget class="volumeControl" name="widget_3" native="true">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>519</y>
+     <width>321</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -98,6 +115,12 @@ border-image: url(:/Icon/next_active.png);
    <class>VolumeInfo</class>
    <extends>QWidget</extends>
    <header location="global">volumeinfo.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>volumeControl</class>
+   <extends>QWidget</extends>
+   <header>volumecontrol.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

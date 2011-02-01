@@ -12,6 +12,8 @@
 #define animation_width handle_width+7
 
 
+
+
 OnOffButton::OnOffButton(QWidget *parent) :
         QWidget(parent)
 {

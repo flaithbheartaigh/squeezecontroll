@@ -8,15 +8,22 @@ Widget::Widget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    mVolume = new volumeControl(this);
 
-    mVolume->move(QPoint(40,450));
+
+
+    mPanelScroll =  new ScrollArea(this);
+    mPanelScroll->move(QPoint(10,60));
+    mPanelScroll->setGeometry(QRect(10,60,340,200));
+
 
     for(int a=0;a<10;a++)
     {
     mButton1 = new OnOffButton(this);
-    mButton1->move(QPoint(200,60+(a*40)));
-    mButton1->update();
+    mPanelScroll->addNewWidget(mButton1);
+
+//    mButton1->move(QPoint(200,60+(a*40)));
+//    mButton1->update();
+
     mTimer = new QTimer(this);
     connect(mTimer,SIGNAL(timeout()),this,SLOT(removeVolumeInfo()));
     ui->widget_2->hide();
@@ -24,13 +31,21 @@ Widget::Widget(QWidget *parent) :
 
 
 
+
+
+
 }
+
+
+mOverLay = new overlay(this);
 mButtonPanel = new buttonPanel(this);
-mButtonPanel->move(QPoint(0,640-80));
+mButtonPanel->move(QPoint(-1,640-80));
 mButtonPanel->update();
 connect(mButtonPanel,SIGNAL(buttonReleased(buttonPanel::buttonpressed)),this,SLOT(buttonPressed(buttonPanel::buttonpressed)));
-connect(mVolume,SIGNAL(sendVolume(int)),this,SLOT(volumenControl(int)));
+connect(ui->widget_3,SIGNAL(sendVolume(int)),this,SLOT(volumenControl(int)));
 ui->widget_2->raise();
+
+
 }
 
 Widget::~Widget()
@@ -62,7 +77,7 @@ void Widget::volumenControl(int aInfo)
 
 void Widget::removeVolumeInfo()
 {
-    ui->widget_2->hide();
+    ui->widget_2->fadeOut();
     mTimer->stop();
 }
 

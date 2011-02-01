@@ -15,18 +15,26 @@ SOURCES += main.cpp\
     onoffbutton.cpp \
     buttonpanel.cpp \
     volumecontrol.cpp \
-    volumeinfo.cpp
+    volumeinfo.cpp \
+    scrollarea.cpp \
+    QsKineticScroller.cpp \
+    overlay.cpp
 
 
 HEADERS  += widget.h \
     onoffbutton.h \
     buttonpanel.h \
     volumecontrol.h \
-    volumeinfo.h
+    volumeinfo.h \
+    scrollarea.h \
+    QsKineticScroller.h \
+    overlay.h
 
 
 FORMS    += widget.ui \
-    volumeinfo.ui
+    volumeinfo.ui \
+    scrollarea.ui \
+    overlay.ui
 
 CONFIG += mobility
 MOBILITY = 

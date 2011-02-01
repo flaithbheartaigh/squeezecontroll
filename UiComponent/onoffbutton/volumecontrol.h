@@ -19,6 +19,7 @@ private:
    int mPosX;
    float mFactor;
    int value;
+   QPixmap mHandle;
 
 signals:
    void sendVolume(int);

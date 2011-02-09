@@ -1,7 +1,7 @@
 #include "rollerwidget.h"
 #include "ui_rollerwidget.h"
 
-RollerWidget::RollerWidget(int aBufferSize, QWidget *parent,int aNumOfTextToDisplay, QColor aTextSelected, QColor aText, QColor aBackGround)
+RollerWidget::RollerWidget(int aBufferSize, int aWidgetHeight, QWidget *parent,int aNumOfTextToDisplay, QColor aTextSelected, QColor aText, QColor aBackGround)
     :QWidget(parent) ,
     ui(new Ui::RollerWidget)
 {    
@@ -18,7 +18,7 @@ RollerWidget::RollerWidget(int aBufferSize, QWidget *parent,int aNumOfTextToDisp
 
     QApplication::setFont(*m_font1);
 
-    m_height = QFontMetrics(font()).height() + 25;
+    m_height = aWidgetHeight;//QFontMetrics(font()).height() + 25;
     qDebug()<<"Font H="<<m_height;
 
     m_highlight = -1;
@@ -114,10 +114,40 @@ void RollerWidget::setEndScroll()
 //reimplement protected function from flickable
 void RollerWidget::setScrollOffset1(const QPoint &aOffset)
 {
-    int yy = aOffset.y();
+    //calculate what elements are to be fetched old Index = m_offset / m_height
+
+    int oldIndex = m_offset/m_height;
+    int newIndex;
+    int yy = aOffset.y();    
     if (yy != m_offset) {
         m_offset = qBound(0, yy, m_height * count() - height());
-        update();
+        newIndex = m_offset/m_height;
+        qDebug() << "Offset = " << aOffset << " m_offset " << m_offset << " oldIndex = " << oldIndex << " newIndex = " << newIndex;
+        //fetch the widgets by emiting signals and delete obsolete widgets
+        //If newIndex > OldIndex -> We are moving down the list
+        //The items to be fetched are newIndex to newIndex+m_buffersize
+        if(newIndex>oldIndex)
+        {
+            //if delta index is larger then buffer, we have a problem
+            for(int i = 0; i< newIndex-oldIndex; i++)
+            {
+                qDebug() << "remove first";
+                //albumList.removeFirst();
+            }
+            emit fetch(oldIndex+m_buffersize-(newIndex-oldIndex), newIndex-oldIndex );
+            qDebug() << "fetch " << oldIndex+m_buffersize-(newIndex-oldIndex) + 1 << ", " << newIndex-oldIndex;
+        }
+        else if (oldIndex>newIndex)
+        {
+            for(int i=0; i< oldIndex-newIndex; i++)
+            {
+                qDebug() << "remove last";
+                //albumList.removeLast();
+            }
+            emit fetch(newIndex , oldIndex-newIndex);
+            qDebug() << "fetch " << newIndex << ", " << oldIndex-newIndex;
+        }
+        //update();
     }
 }
 

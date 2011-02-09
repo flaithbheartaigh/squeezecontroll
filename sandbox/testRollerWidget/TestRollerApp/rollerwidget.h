@@ -16,7 +16,7 @@ class RollerWidget : public QWidget, public Flickable
     Q_OBJECT
 
 public:
-    explicit RollerWidget(int aBufferSize, QWidget *parent = 0, int aNumOfTextToDisplay = 1,QColor aTextSelected=Qt::lightGray, QColor aText=Qt::blue, QColor aBackGround=Qt::white);
+    explicit RollerWidget(int aBufferSize, int aWidgetHeight, QWidget *parent = 0, int aNumOfTextToDisplay = 1,QColor aTextSelected=Qt::lightGray, QColor aText=Qt::blue, QColor aBackGround=Qt::white);
     ~RollerWidget();
 
     void scrolllist(int offset);
@@ -30,7 +30,6 @@ public:
     void setNumOfTextToDisplay(int aNumOfTextToDisplay);
     void setHighLightedColor(QColor color);             //Color to be used in widget that is selected
     void setCount(int aNumOfItemsInList);               //Sets the total amount of widgets in list
-    void setBufferSize(int);                            //Sets the amount of widgets to be used locally.
 
 protected:
     //reimplement from flickable
@@ -44,10 +43,11 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *event);
 
 private:
+    int m_pending_fetch;
     int m_offset,old_offset;    //
-    int m_buffersize;
+    int m_buffersize;           //The amount of widgets in the buffer
     int m_height;               //height of a widget in the list
-    int m_count;                //The amount of items in the list
+    int m_count;                //The amount of widgets in the list
     int m_highlight;
     int m_selected;
     int m_nomoftexttodisplay;
@@ -56,7 +56,7 @@ private:
 //    QList<QColor> m_firstColor;
 //    QList<QColor> m_secondColor;
 //    QPixmap *myPic;
-    QList<QWidget> albumList;
+    QList<QWidget*> albumList;
 //    QList<allAlbum> albumList;
     QFont *m_font1, *m_font2;
     bool m_longPress;
@@ -68,6 +68,7 @@ signals:
     void doubleClick(int);
     void endOfScroll(int);
     void longPress(int);
+    void fetch(int index, int number);
 
 private slots:
     void timeOut();

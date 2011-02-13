@@ -242,13 +242,21 @@ void RollerWidget::mouseDoubleClickEvent(QMouseEvent *aEvent)
 //Private function
 void RollerWidget::moveWidgets()
 {
-    int direction =1;
-    if (m_ScrollDirectionDown == true)
-        direction = -1;
 
+    int dy;
+    if (m_ScrollDirectionDown == true)
+    {
+        dy = m_offset%m_height * (-1);
+    }
+    else
+    {
+        dy = m_height - m_offset%m_height;
+    }
+
+    qDebug() << "moveWidgets " <<  m_offset << dy;
     for(int i=0;i<albumList.count();i++)
     {
-        albumList.at(i)->move(0, m_offset%m_height *direction + i*m_height);
+        albumList.at(i)->move(0, dy + i*m_height);
     }
     update();
 }

@@ -16,7 +16,7 @@ class RollerWidget : public QWidget, public Flickable
     Q_OBJECT
 
 public:
-    explicit RollerWidget(int aBufferSize, int aWidgetHeight, QWidget *parent = 0, int aNumOfTextToDisplay = 1,QColor aTextSelected=Qt::lightGray, QColor aText=Qt::blue, QColor aBackGround=Qt::white);
+    explicit RollerWidget(int aBufferSize, int aWidgetHeight, QWidget *parent = 0);
     ~RollerWidget();
 
     void scrolllist(int offset);
@@ -27,7 +27,7 @@ public:
     void setSelectedColor(QColor color);
     void setLineColor(QColor color);
     int count();
-    void setNumOfTextToDisplay(int aNumOfTextToDisplay);
+
     void setHighLightedColor(QColor color);             //Color to be used in widget that is selected
     void setCount(int aNumOfItemsInList);               //Sets the total amount of widgets in list
     void addWidget(QWidget* aWidget);

@@ -30,7 +30,7 @@ public:
     void setNumOfTextToDisplay(int aNumOfTextToDisplay);
     void setHighLightedColor(QColor color);             //Color to be used in widget that is selected
     void setCount(int aNumOfItemsInList);               //Sets the total amount of widgets in list
-
+    void addWidget(QWidget* aWidget);
 protected:
     //reimplement from flickable
     virtual QPoint scrollOffset() const;
@@ -43,7 +43,9 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *event);
 
 private:
-    int m_pending_fetch;
+    void moveWidgets();         //Moves the widgets m_offset-old_offset
+    bool m_ScrollDirectionDown; //used to determing whether new widgets go to top or bottom
+    int m_pending_fetch;        //When 0 all widgets are fetched and update is initiated.
     int m_offset,old_offset;    //
     int m_buffersize;           //The amount of widgets in the buffer
     int m_height;               //height of a widget in the list
@@ -51,14 +53,8 @@ private:
     int m_highlight;
     int m_selected;
     int m_nomoftexttodisplay;
-    QColor m_background,m_text,m_textSelected,m_lineColor,m_highLightedColor,m_oldColor;
-//    QStringList m_colorNames;
-//    QList<QColor> m_firstColor;
-//    QList<QColor> m_secondColor;
-//    QPixmap *myPic;
+
     QList<QWidget*> albumList;
-//    QList<allAlbum> albumList;
-    QFont *m_font1, *m_font2;
     bool m_longPress;
     QPoint m_mousePos;
     bool m_button;

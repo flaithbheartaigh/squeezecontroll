@@ -12,9 +12,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         rollerwidget.cpp \
-    flickable.cpp
+    flickable.cpp \
+    scrollitem.cpp
 
 HEADERS  += rollerwidget.h \
-    flickable.h
+    flickable.h \
+    scrollitem.h
 
-FORMS    += rollerwidget.ui
+FORMS    += rollerwidget.ui \
+    scrollitem.ui

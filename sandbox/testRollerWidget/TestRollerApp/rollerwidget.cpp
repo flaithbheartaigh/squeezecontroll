@@ -256,7 +256,7 @@ void RollerWidget::moveWidgets()
 
     for(int i=0;i<albumList.count();i++)
     {
-        albumList.at(i)->move(0,albumList.at(i)->pos().y() + (m_offset-old_offset)*direction);
+        albumList.at(i)->move(0, m_offset%m_height *direction + i*m_height);
     }
     update();
 }

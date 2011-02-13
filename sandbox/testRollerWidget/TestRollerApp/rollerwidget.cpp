@@ -1,7 +1,7 @@
 #include "rollerwidget.h"
 #include "ui_rollerwidget.h"
 
-RollerWidget::RollerWidget(int aBufferSize, int aWidgetHeight, QWidget *parent,int aNumOfTextToDisplay, QColor aTextSelected, QColor aText, QColor aBackGround)
+RollerWidget::RollerWidget(int aBufferSize, int aWidgetHeight, QWidget *parent)
     :QWidget(parent) ,
     ui(new Ui::RollerWidget)
 {    
@@ -18,16 +18,9 @@ RollerWidget::RollerWidget(int aBufferSize, int aWidgetHeight, QWidget *parent,i
     //QApplication::setFont(*m_font1);
 
     m_height = aWidgetHeight;//QFontMetrics(font()).height() + 25;
-    qDebug()<<"Font H="<<m_height;
 
     m_highlight = -1;
     m_selected = -1;
-
-
-
-
-
-    //m_nomoftexttodisplay=aNumOfTextToDisplay;
     //myPic= new QPixmap(":/pic/cover1.jpg");
 
     setAttribute(Qt::WA_OpaquePaintEvent, true);
@@ -94,10 +87,6 @@ int RollerWidget::count()
 {
     return m_count;//(albumList.count());
 }
-void RollerWidget::setNumOfTextToDisplay(int aNumOfTextToDisplay)
-{
-    m_nomoftexttodisplay=aNumOfTextToDisplay;
-}
 
 
 //reimplement protected function from flickable
@@ -121,7 +110,7 @@ void RollerWidget::setScrollOffset1(const QPoint &aOffset)
     int newIndex;
     int yy = aOffset.y();    
     if (yy != m_offset) {
-        m_offset = qBound(0, yy, m_height * count() - height());
+        m_offset = qBound(0, yy, m_height * count()-this->ui->frame->height());
         if(m_offset>old_offset)
             m_ScrollDirectionDown = true;
         else
@@ -135,6 +124,9 @@ void RollerWidget::setScrollOffset1(const QPoint &aOffset)
         if(newIndex>oldIndex)
         {           
             m_pending_fetch = newIndex-oldIndex;
+            if(oldIndex + m_buffersize + m_pending_fetch > m_count)
+                m_pending_fetch = m_count-oldIndex-m_buffersize;
+
             //if delta index is larger than buffer, we have a problem
             for(int i = 0; i< m_pending_fetch; i++)
             {
@@ -143,8 +135,8 @@ void RollerWidget::setScrollOffset1(const QPoint &aOffset)
                 qDebug() << "remove first";
                 //albumList.removeFirst();
             }
-            emit fetch(oldIndex+m_buffersize-(newIndex-oldIndex), newIndex-oldIndex );
-            qDebug() << "fetch " << oldIndex+m_buffersize-(newIndex-oldIndex) + 1 << ", " << newIndex-oldIndex;
+            emit fetch(oldIndex+m_buffersize, m_pending_fetch );
+            qDebug() << "fetch " << oldIndex+m_buffersize << ", " << m_pending_fetch;
         }
         else if (oldIndex>newIndex)
         {

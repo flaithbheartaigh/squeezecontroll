@@ -244,14 +244,7 @@ void RollerWidget::moveWidgets()
 {
 
     int dy;
-    if (m_ScrollDirectionDown == true)
-    {
-        dy = m_offset%m_height * (-1);
-    }
-    else
-    {
-        dy = m_height - m_offset%m_height;
-    }
+    dy = m_offset%m_height * (-1);
 
     qDebug() << "moveWidgets " <<  m_offset << dy;
     for(int i=0;i<albumList.count();i++)

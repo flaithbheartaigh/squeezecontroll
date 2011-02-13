@@ -7,27 +7,26 @@ RollerWidget::RollerWidget(int aBufferSize, int aWidgetHeight, QWidget *parent,i
 {    
     ui->setupUi(this);
     m_buffersize = aBufferSize;
+    m_ScrollDirectionDown = true; //Makes sure that the populating the list happend to end of list
+    m_pending_fetch = aBufferSize; //owner will have to addWidgets aBufferTimes before the update is called.
     m_offset = 0;
+    old_offset = 0;
     m_button=false;
     m_longPress=false;
     m_timeOut=false;
-    m_font1 = new QFont("Helvetica",15,1,false);
-    m_font1->setPixelSize(25);
-    m_font2 =new QFont("Helvetica",10,1,false);
-    m_font2->setPixelSize(15);
 
-    QApplication::setFont(*m_font1);
+    //QApplication::setFont(*m_font1);
 
     m_height = aWidgetHeight;//QFontMetrics(font()).height() + 25;
     qDebug()<<"Font H="<<m_height;
 
     m_highlight = -1;
     m_selected = -1;
-    m_background=aBackGround;
-    m_text=aText;
-    m_textSelected=aTextSelected;
-    m_highLightedColor=Qt::green;
-    m_lineColor=Qt::darkBlue;
+
+
+
+
+
     //m_nomoftexttodisplay=aNumOfTextToDisplay;
     //myPic= new QPixmap(":/pic/cover1.jpg");
 
@@ -63,28 +62,34 @@ int RollerWidget::getSelected()
     return(m_selected);
 }
 
-void RollerWidget::setBackgroundColor(QColor aColor)
-{
-    m_background=aColor;
-}
-void RollerWidget::setTextColor(QColor aColor)
-{
-    m_text=aColor;
-}
 void RollerWidget::setCount(int aNumOfItemsInList)
 {
     m_count = aNumOfItemsInList;
 }
 
-void RollerWidget::setSelectedColor(QColor aColor)
+//public function
+void RollerWidget::addWidget(QWidget* aWidget)
 {
-    m_textSelected=aColor;
-    m_oldColor=aColor;
+    aWidget->setParent(ui->frame);
+    if(m_ScrollDirectionDown)
+    {
+        aWidget->move(0,albumList.count()*m_height-m_offset%m_height);
+        aWidget->show();
+        albumList.append(aWidget);
+    }
+    else
+    {
+        aWidget->move(0,m_pending_fetch*m_height+m_offset%m_height);
+        aWidget->show();
+        albumList.prepend(aWidget);
+    }
+    m_pending_fetch--;
+    if(m_pending_fetch == 0)
+    {
+        moveWidgets();
+    }
 }
-void RollerWidget::setLineColor(QColor aColor)
-{
-    m_lineColor=aColor;
-}
+
 int RollerWidget::count()
 {
     return m_count;//(albumList.count());
@@ -94,10 +99,6 @@ void RollerWidget::setNumOfTextToDisplay(int aNumOfTextToDisplay)
     m_nomoftexttodisplay=aNumOfTextToDisplay;
 }
 
-void RollerWidget::setHighLightedColor(QColor aColor)
-{
-    m_highLightedColor=aColor;
-}
 
 //reimplement protected function from flickable
 QPoint RollerWidget::RollerWidget::scrollOffset() const {
@@ -115,22 +116,30 @@ void RollerWidget::setEndScroll()
 void RollerWidget::setScrollOffset1(const QPoint &aOffset)
 {
     //calculate what elements are to be fetched old Index = m_offset / m_height
-
+    old_offset = m_offset;
     int oldIndex = m_offset/m_height;
     int newIndex;
     int yy = aOffset.y();    
     if (yy != m_offset) {
         m_offset = qBound(0, yy, m_height * count() - height());
+        if(m_offset>old_offset)
+            m_ScrollDirectionDown = true;
+        else
+            m_ScrollDirectionDown = false;
+
         newIndex = m_offset/m_height;
-        qDebug() << "Offset = " << aOffset << " m_offset " << m_offset << " oldIndex = " << oldIndex << " newIndex = " << newIndex;
+        qDebug() << "Offset = " << aOffset << " m_offset " << m_offset << " oldIndex = " << oldIndex << " newIndex = " << newIndex << "offset % m_height = " << m_offset%m_height;
         //fetch the widgets by emiting signals and delete obsolete widgets
         //If newIndex > OldIndex -> We are moving down the list
         //The items to be fetched are newIndex to newIndex+m_buffersize
         if(newIndex>oldIndex)
-        {
-            //if delta index is larger then buffer, we have a problem
-            for(int i = 0; i< newIndex-oldIndex; i++)
+        {           
+            m_pending_fetch = newIndex-oldIndex;
+            //if delta index is larger than buffer, we have a problem
+            for(int i = 0; i< m_pending_fetch; i++)
             {
+                QWidget* temp =  albumList.takeFirst(); //hack to show something right now
+                albumList.append(temp);//hack
                 qDebug() << "remove first";
                 //albumList.removeFirst();
             }
@@ -139,13 +148,21 @@ void RollerWidget::setScrollOffset1(const QPoint &aOffset)
         }
         else if (oldIndex>newIndex)
         {
+            m_pending_fetch = oldIndex-newIndex;
+            m_ScrollDirectionDown = false;
             for(int i=0; i< oldIndex-newIndex; i++)
-            {
+            {                
                 qDebug() << "remove last";
+                QWidget* temp =  albumList.takeLast(); //hack to show something right now
+                albumList.prepend(temp);
                 //albumList.removeLast();
             }
             emit fetch(newIndex , oldIndex-newIndex);
             qDebug() << "fetch " << newIndex << ", " << oldIndex-newIndex;
+        }
+        else //no index change. Force move
+        {
+            moveWidgets();
         }
         //update();
     }
@@ -158,7 +175,7 @@ void RollerWidget::mousePressEvent(QMouseEvent *aEvent) {
     {
         qDebug()<<"Got a mouse press event in List Setting long press flag";
         m_longPress=true;
-        m_textSelected=Qt::blue;
+
         m_button=true;
         m_mousePos=aEvent->pos();
         QTimer::singleShot(170,this,SLOT(timeOut()));
@@ -230,11 +247,24 @@ void RollerWidget::mouseDoubleClickEvent(QMouseEvent *aEvent)
     aEvent->accept();
     emit doubleClick(m_selected);
 }
+//Private function
+void RollerWidget::moveWidgets()
+{
+    int direction =1;
+    if (m_ScrollDirectionDown == true)
+        direction = -1;
+
+    for(int i=0;i<albumList.count();i++)
+    {
+        albumList.at(i)->move(0,albumList.at(i)->pos().y() + (m_offset-old_offset)*direction);
+    }
+    update();
+}
 
 //Private slot function
 void RollerWidget::timeOut()
 {
-   m_textSelected=m_oldColor;
+
    update();
     if (m_longPress==true)
     {
